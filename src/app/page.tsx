@@ -6,6 +6,7 @@ import { SiteLayout } from "@/components/layout/SiteLayout";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { SITE } from "@/lib/site";
 import { images } from "@/lib/images";
+import { assetUrl, fetchBanner, fetchSiteConfig } from "@/lib/api";
 
 export const metadata: Metadata = {
   title: "Sak Yant Muay Thai Nepal — Elite Fight Academy in Pokhara",
@@ -54,12 +55,25 @@ export default function HomePage() {
   );
 }
 
-function Hero() {
+async function Hero() {
+  const banner = await fetchBanner("home");
+  const eyebrow = banner?.eyebrow ?? "Pokhara · Nepal";
+  const titleLineOne = banner?.title ?? "Forged In";
+  const titleLineTwo = banner?.titleAccent ?? "Blood & Sweat.";
+  const subtitle =
+    banner?.subtitle ??
+    "Sak Yant Muay Thai Nepal is where warriors are built. World-class Muay Thai and MMA training under the shadow of the Himalayas — home of The Contender Fight Series.";
+  const primaryLabel = banner?.ctaLabel ?? "Train With Us";
+  const primaryHref = banner?.ctaHref ?? "/membership";
+  const secondaryLabel = banner?.ctaSecondaryLabel ?? "Watch The Contender";
+  const secondaryHref = banner?.ctaSecondaryHref ?? "/contender";
+  const heroImage = banner?.imageUrl ? assetUrl(banner.imageUrl) : images.heroFighter;
+
   return (
     <section className="relative -mt-16 md:-mt-20 h-[100svh] min-h-[640px] overflow-hidden">
       <Image
-        src={images.heroFighter}
-        alt="Muay Thai fighter in red light"
+        src={heroImage}
+        alt={banner?.imageAlt ?? "Muay Thai fighter in red light"}
         fill
         priority
         sizes="100vw"
@@ -73,30 +87,27 @@ function Hero() {
           <div className="flex items-center gap-3 mb-6">
             <span className="h-px w-10 bg-accent" />
             <span className="text-[11px] tracking-[0.35em] uppercase text-secondary font-semibold">
-              Pokhara · Nepal
+              {eyebrow}
             </span>
           </div>
           <h1 className="font-display text-[14vw] sm:text-7xl md:text-8xl lg:text-9xl leading-[0.88]">
-            <span className="block">Forged In</span>
-            <span className="block text-accent">Blood &amp; Sweat.</span>
+            <span className="block">{titleLineOne}</span>
+            <span className="block text-accent">{titleLineTwo}</span>
           </h1>
-          <p className="mt-6 max-w-xl text-base md:text-lg text-muted-foreground">
-            Sak Yant Muay Thai Nepal is where warriors are built. World-class Muay Thai and MMA
-            training under the shadow of the Himalayas — home of The Contender Fight Series.
-          </p>
+          <p className="mt-6 max-w-xl text-base md:text-lg text-muted-foreground">{subtitle}</p>
           <div className="mt-10 flex flex-wrap gap-4">
             <Link
-              href="/membership"
+              href={primaryHref}
               className="group inline-flex items-center gap-3 bg-accent text-accent-foreground px-7 py-4 text-sm tracking-[0.2em] uppercase font-semibold hover:bg-accent/90 transition-colors"
             >
-              Train With Us
+              {primaryLabel}
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
-              href="/contender"
+              href={secondaryHref}
               className="inline-flex items-center gap-3 border border-foreground/30 px-7 py-4 text-sm tracking-[0.2em] uppercase font-semibold hover:border-foreground hover:bg-foreground/5 transition-all"
             >
-              Watch The Contender
+              {secondaryLabel}
             </Link>
           </div>
         </div>
@@ -561,7 +572,8 @@ function Sponsors() {
   );
 }
 
-function Visit() {
+async function Visit() {
+  const site = await fetchSiteConfig(SITE);
   return (
     <section className="py-20 md:py-32">
       <div className="container-x grid md:grid-cols-2 gap-10 items-stretch">
@@ -573,7 +585,7 @@ function Visit() {
           />
           <ul className="mt-8 space-y-4 text-sm">
             <li className="flex gap-3">
-              <MapPin className="text-accent shrink-0 mt-0.5" size={18} /> {SITE.location}
+              <MapPin className="text-accent shrink-0 mt-0.5" size={18} /> {site.location}
             </li>
             <li className="flex gap-3">
               <Calendar className="text-accent shrink-0 mt-0.5" size={18} /> Mon–Sat · 7AM–8:30PM
@@ -581,7 +593,7 @@ function Visit() {
           </ul>
           <div className="mt-8 flex gap-3 flex-wrap">
             <a
-              href={SITE.mapsUrl}
+              href={site.mapsUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-accent text-accent-foreground px-6 py-3 text-xs tracking-[0.2em] uppercase font-semibold"
@@ -598,7 +610,7 @@ function Visit() {
         </div>
         <div className="aspect-video md:aspect-auto md:min-h-[420px] border border-border overflow-hidden">
           <iframe
-            src={SITE.mapsEmbed}
+            src={site.mapsEmbed}
             className="w-full h-full grayscale contrast-125"
             loading="lazy"
             title="Sak Yant Muay Thai Nepal location"

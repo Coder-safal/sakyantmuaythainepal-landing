@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { SiteLayout } from "@/components/layout/SiteLayout";
-import { PageHero } from "@/components/ui/PageHero";
+import { DynamicHero } from "@/components/ui/DynamicHero";
 import { GalleryGrid } from "./_components/GalleryGrid";
-import { images } from "@/lib/images";
+import { assetUrl, fetchSectionData } from "@/lib/api";
 
 export const metadata: Metadata = {
   title: "Gallery",
@@ -16,16 +16,29 @@ export const metadata: Metadata = {
   },
 };
 
-export default function GalleryPage() {
+interface GalleryContent {
+  pageHero?: { eyebrow?: string; title?: string; subtitle?: string; image?: string };
+  items?: { src: string; category: string }[];
+  categories?: string[];
+}
+
+export default async function GalleryPage() {
+  const gallery = await fetchSectionData<GalleryContent>("gallery", {});
+  const items = (gallery.items ?? []).map((it) => ({ src: assetUrl(it.src), cat: it.category }));
+  const categories = gallery.categories ?? [];
+
   return (
     <SiteLayout>
-      <PageHero
-        eyebrow="Gallery"
-        title="Inside The Fight."
-        subtitle="Moments from training, fight nights and gym life."
-        image={images.cageEvent}
+      <DynamicHero
+        section="gallery"
+        fallback={{
+          eyebrow: gallery.pageHero?.eyebrow,
+          title: gallery.pageHero?.title ?? "",
+          subtitle: gallery.pageHero?.subtitle,
+          image: assetUrl(gallery.pageHero?.image) || "/images/cage-event.jpg",
+        }}
       />
-      <GalleryGrid />
+      <GalleryGrid items={items} categories={categories} />
     </SiteLayout>
   );
 }

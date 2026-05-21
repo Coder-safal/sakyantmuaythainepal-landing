@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
-import { PageHero } from "@/components/ui/PageHero";
+import { DynamicHero } from "@/components/ui/DynamicHero";
+import { assetUrl, fetchSectionData, fetchSiteConfig } from "@/lib/api";
 import { SITE } from "@/lib/site";
-import { images } from "@/lib/images";
 import { ContactForm } from "./_components/ContactForm";
 
 export const metadata: Metadata = {
@@ -17,28 +17,44 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ContactPage() {
+interface ContactContent {
+  pageHero?: { eyebrow?: string; title?: string; subtitle?: string; image?: string };
+  sendMessageTitle?: string;
+  hours?: string;
+  whatsappLabel?: string;
+  whatsappEyebrow?: string;
+}
+
+export default async function ContactPage() {
+  const [contact, site] = await Promise.all([
+    fetchSectionData<ContactContent>("contact", {}),
+    fetchSiteConfig(SITE),
+  ]);
+
   return (
     <SiteLayout>
-      <PageHero
-        eyebrow="Contact"
-        title="Step Inside. Say Hello."
-        subtitle="Drop in for a class, book a tour, or message us before you fly in."
-        image={images.handWraps}
+      <DynamicHero
+        section="contact"
+        fallback={{
+          eyebrow: contact.pageHero?.eyebrow,
+          title: contact.pageHero?.title ?? "",
+          subtitle: contact.pageHero?.subtitle,
+          image: assetUrl(contact.pageHero?.image) || "/images/hand-wraps.jpg",
+        }}
       />
 
       <section className="py-20 md:py-28">
         <div className="container-x grid md:grid-cols-2 gap-12">
           <div>
-            <h2 className="font-display text-3xl md:text-4xl">Send A Message</h2>
+            <h2 className="font-display text-3xl md:text-4xl">{contact.sendMessageTitle}</h2>
             <ContactForm />
           </div>
           <div className="space-y-6">
             {[
-              { Icon: MapPin, t: "Location", v: SITE.location },
-              { Icon: Phone, t: "Phone", v: SITE.phone },
-              { Icon: Mail, t: "Email", v: SITE.email },
-              { Icon: Clock, t: "Hours", v: "Mon–Sat · 7AM – 8:30PM" },
+              { Icon: MapPin, t: "Location", v: site.location },
+              { Icon: Phone, t: "Phone", v: site.phone },
+              { Icon: Mail, t: "Email", v: site.email },
+              { Icon: Clock, t: "Hours", v: contact.hours ?? "" },
             ].map(({ Icon, t, v }) => (
               <div key={t} className="border border-border bg-card p-6 flex gap-4">
                 <Icon className="text-accent shrink-0" />
@@ -49,7 +65,7 @@ export default function ContactPage() {
               </div>
             ))}
             <a
-              href={SITE.whatsapp}
+              href={site.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
               className="border border-accent bg-accent/10 p-6 flex items-center gap-4 hover:bg-accent/20 transition-colors"
@@ -57,14 +73,14 @@ export default function ContactPage() {
               <MessageCircle className="text-accent" />
               <div>
                 <div className="text-[11px] tracking-[0.25em] uppercase text-secondary">
-                  Fastest Reply
+                  {contact.whatsappEyebrow}
                 </div>
-                <div className="mt-1 font-display text-lg">Chat on WhatsApp</div>
+                <div className="mt-1 font-display text-lg">{contact.whatsappLabel}</div>
               </div>
             </a>
             <div className="aspect-video border border-border overflow-hidden">
               <iframe
-                src={SITE.mapsEmbed}
+                src={site.mapsEmbed}
                 className="w-full h-full grayscale contrast-125"
                 title="Map"
                 loading="lazy"

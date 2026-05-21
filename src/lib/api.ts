@@ -6,8 +6,8 @@
  * All fetches run on the server (App Router) — no client requests, no UI change.
  */
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:4000/api/v1";
-const ASSET_BASE = process.env.NEXT_PUBLIC_ASSET_BASE_URL ?? "http://localhost:4000";
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3000/api/v1";
+const ASSET_BASE = process.env.NEXT_PUBLIC_ASSET_BASE_URL ?? "http://localhost:3000";
 
 const REVALIDATE_SECONDS = 60;
 
@@ -80,6 +80,103 @@ export async function fetchSectionData<T = Record<string, unknown>>(
   const result = await fetchSection(section);
   if (!result) return fallback;
   return result.data as T;
+}
+
+// ── Site config (global) ───────────────────────────────────────────
+export interface SiteConfig {
+  name: string;
+  short: string;
+  tagline: string;
+  location: string;
+  phone: string;
+  email: string;
+  whatsapp: string;
+  mapsUrl: string;
+  mapsEmbed: string;
+  socials: {
+    instagram: string;
+    facebook: string;
+    youtube: string;
+    tiktok: string;
+  };
+}
+
+export async function fetchSiteConfig(fallback: SiteConfig): Promise<SiteConfig> {
+  const data = await fetchSection("site");
+  if (!data) return fallback;
+  const d = data.data as Partial<SiteConfig> & { socials?: Partial<SiteConfig["socials"]> };
+  return {
+    name: d.name ?? fallback.name,
+    short: d.short ?? fallback.short,
+    tagline: d.tagline ?? fallback.tagline,
+    location: d.location ?? fallback.location,
+    phone: d.phone ?? fallback.phone,
+    email: d.email ?? fallback.email,
+    whatsapp: d.whatsapp ?? fallback.whatsapp,
+    mapsUrl: d.mapsUrl ?? fallback.mapsUrl,
+    mapsEmbed: d.mapsEmbed ?? fallback.mapsEmbed,
+    socials: {
+      instagram: d.socials?.instagram ?? fallback.socials.instagram,
+      facebook: d.socials?.facebook ?? fallback.socials.facebook,
+      youtube: d.socials?.youtube ?? fallback.socials.youtube,
+      tiktok: d.socials?.tiktok ?? fallback.socials.tiktok,
+    },
+  };
+}
+
+// ── Banners ────────────────────────────────────────────────────────
+export type BannerSection =
+  | "home"
+  | "membership"
+  | "muaythai"
+  | "yantra"
+  | "events"
+  | "contact"
+  | "about"
+  | "gallery"
+  | "contender"
+  | "achievements"
+  | "podcast";
+
+export interface BannerStyle {
+  color?: string;
+  subtitleColor?: string;
+  eyebrowColor?: string;
+  titleAccentColor?: string;
+  ctaPrimaryColor?: string;
+  ctaPrimaryBg?: string;
+  ctaSecondaryColor?: string;
+  align?: "left" | "center" | "right";
+  overlayOpacity?: number;
+  fontSize?: string;
+  fontWeight?: string;
+  background?: string;
+}
+
+export interface PublicBanner {
+  id: string;
+  section: BannerSection;
+  title: string;
+  titleAccent?: string;
+  subtitle?: string;
+  eyebrow?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  ctaSecondaryLabel?: string;
+  ctaSecondaryHref?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  style: BannerStyle;
+  sortOrder: number;
+}
+
+export async function fetchBannersBySection(section: BannerSection): Promise<PublicBanner[]> {
+  return (await getJson<PublicBanner[]>(`/banners/public/${section}`)) ?? [];
+}
+
+export async function fetchBanner(section: BannerSection): Promise<PublicBanner | null> {
+  const list = await fetchBannersBySection(section);
+  return list[0] ?? null;
 }
 
 // ── Contact / inquiry ──────────────────────────────────────────────

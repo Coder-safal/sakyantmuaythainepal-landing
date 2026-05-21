@@ -5,10 +5,11 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { NAV, SITE } from "@/lib/site";
+import { NAV } from "@/lib/site";
 import { images } from "@/lib/images";
+import type { SiteConfig } from "@/lib/api";
 
-export function Navbar() {
+export function Navbar({ site }: { site: Pick<SiteConfig, "whatsapp"> }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -72,7 +73,7 @@ export function Navbar() {
 
         <div className="hidden lg:block">
           <a
-            href={SITE.whatsapp}
+            href={site.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center bg-accent text-accent-foreground px-5 py-2.5 text-xs tracking-[0.2em] uppercase font-semibold hover:bg-accent/90 transition-colors"
@@ -103,7 +104,7 @@ export function Navbar() {
               </Link>
             ))}
             <a
-              href={SITE.whatsapp}
+              href={site.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-4 text-center bg-accent text-accent-foreground py-3 text-xs tracking-[0.25em] uppercase font-semibold"

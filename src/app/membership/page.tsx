@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { Check } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
-import { PageHero } from "@/components/ui/PageHero";
+import { DynamicHero } from "@/components/ui/DynamicHero";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { SITE } from "@/lib/site";
 import { images } from "@/lib/images";
-import { fetchPlans, fetchSectionData, type PublicPlan } from "@/lib/api";
+import { fetchPlans, fetchSectionData, fetchSiteConfig, type PublicPlan } from "@/lib/api";
 
 export const metadata: Metadata = {
   title: "Membership & Training",
@@ -77,20 +77,25 @@ const SCHEDULE_FALLBACK: { blocks: ScheduleBlock[] } = {
 };
 
 export default async function MembershipPage() {
-  const [plansRaw, schedule] = await Promise.all([
+  const [plansRaw, schedule, site] = await Promise.all([
     fetchPlans(),
     fetchSectionData<{ blocks: ScheduleBlock[] }>("schedule", SCHEDULE_FALLBACK),
+    fetchSiteConfig(SITE),
   ]);
   const plans = plansRaw && plansRaw.length > 0 ? plansRaw : FALLBACK_PLANS;
   const blocks = schedule.blocks ?? SCHEDULE_FALLBACK.blocks;
 
   return (
     <SiteLayout>
-      <PageHero
-        eyebrow="Membership & Training"
-        title="Choose Your Plan. Step On The Mat."
-        subtitle="Built for fighters at every stage — visiting athletes, Nepali pros, total beginners, kids."
-        image={images.membershipPoster}
+      <DynamicHero
+        section="membership"
+        fallback={{
+          eyebrow: "Membership & Training",
+          title: "Choose Your Plan. Step On The Mat.",
+          subtitle:
+            "Built for fighters at every stage — visiting athletes, Nepali pros, total beginners, kids.",
+          image: images.membershipPoster,
+        }}
       />
 
       <section className="py-20 md:py-28">
@@ -125,7 +130,7 @@ export default async function MembershipPage() {
                   ))}
                 </ul>
                 <a
-                  href={p.ctaUrl ?? SITE.whatsapp}
+                  href={p.ctaUrl ?? site.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`mt-7 text-center py-3 text-xs tracking-[0.25em] uppercase font-semibold transition-colors ${
@@ -186,7 +191,7 @@ export default async function MembershipPage() {
               description="Special pricing available for groups, gyms and teams visiting from abroad. Send us your team size and dates."
             />
             <a
-              href={SITE.whatsapp}
+              href={site.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-8 inline-flex bg-accent text-accent-foreground px-8 py-4 text-sm tracking-[0.2em] uppercase font-semibold"

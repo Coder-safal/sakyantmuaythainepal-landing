@@ -1,10 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Instagram, Facebook, Youtube, MapPin, Phone, Mail } from "lucide-react";
-import { NAV, SITE } from "@/lib/site";
+import { NAV } from "@/lib/site";
 import { images } from "@/lib/images";
+import type { SiteConfig } from "@/lib/api";
+import { fetchSectionData } from "@/lib/api";
 
-export function Footer() {
+interface FooterContent {
+  description: string;
+  motto: string;
+}
+
+export async function Footer({ site }: { site: SiteConfig }) {
+  const footer = await fetchSectionData<FooterContent>("footer", { description: "", motto: "" });
   return (
     <footer className="relative border-t border-border bg-background">
       <div className="blood-divider" />
@@ -13,22 +21,20 @@ export function Footer() {
           <div className="flex items-center gap-3">
             <Image src={images.logo} alt="" width={56} height={56} className="h-14 w-14" />
             <div>
-              <div className="font-display text-lg tracking-wider">SAK YANT</div>
+              <div className="font-display text-lg tracking-wider">{site.short}</div>
               <div className="text-xs text-muted-foreground tracking-[0.25em]">
                 MUAY THAI · NEPAL
               </div>
             </div>
           </div>
           <p className="mt-5 max-w-md text-sm text-muted-foreground leading-relaxed">
-            A premier Muay Thai and MMA fight academy in Pokhara, Nepal. Built for fighters,
-            open to everyone — train under championship coaches in the foothills of the
-            Himalayas.
+            {footer.description}
           </p>
           <div className="flex gap-3 mt-6">
             {[
-              { Icon: Instagram, href: SITE.socials.instagram },
-              { Icon: Facebook, href: SITE.socials.facebook },
-              { Icon: Youtube, href: SITE.socials.youtube },
+              { Icon: Instagram, href: site.socials.instagram },
+              { Icon: Facebook, href: site.socials.facebook },
+              { Icon: Youtube, href: site.socials.youtube },
             ].map(({ Icon, href }, i) => (
               <a
                 key={i}
@@ -64,15 +70,15 @@ export function Footer() {
           <ul className="space-y-3 text-sm text-muted-foreground">
             <li className="flex gap-2">
               <MapPin size={16} className="mt-0.5 text-accent shrink-0" />
-              {SITE.location}
+              {site.location}
             </li>
             <li className="flex gap-2">
               <Phone size={16} className="mt-0.5 text-accent shrink-0" />
-              {SITE.phone}
+              {site.phone}
             </li>
             <li className="flex gap-2">
               <Mail size={16} className="mt-0.5 text-accent shrink-0" />
-              {SITE.email}
+              {site.email}
             </li>
           </ul>
         </div>
@@ -80,9 +86,9 @@ export function Footer() {
       <div className="border-t border-border">
         <div className="container-x py-5 flex flex-col md:flex-row gap-2 items-center justify-between text-xs text-muted-foreground">
           <p>
-            © {new Date().getFullYear()} {SITE.name}. All rights reserved.
+            © {new Date().getFullYear()} {site.name}. All rights reserved.
           </p>
-          <p className="tracking-[0.2em]">UNSEEN · UNHEARD · UNSPOKEN</p>
+          <p className="tracking-[0.2em]">{footer.motto}</p>
         </div>
       </div>
     </footer>

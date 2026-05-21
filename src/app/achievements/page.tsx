@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { Trophy } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
-import { PageHero } from "@/components/ui/PageHero";
+import { DynamicHero } from "@/components/ui/DynamicHero";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { images } from "@/lib/images";
+import { assetUrl, fetchSectionData } from "@/lib/api";
 
 export const metadata: Metadata = {
   title: "Achievements",
@@ -18,38 +18,39 @@ export const metadata: Metadata = {
   },
 };
 
-const RECORDS = [
-  { y: "2024", t: "WBC Muaythai Nepal — National Champion", w: "Women's Flyweight" },
-  { y: "2024", t: "ITF Taekwon-Do Worlds — Bronze Medal", w: "International" },
-  { y: "2023", t: "National Pro Championship — Champion", w: "Lightweight" },
-  { y: "2023", t: "South Asian Muay Thai Open — Finalist", w: "Welterweight" },
-  { y: "2022", t: "Nepal MMA Federation — Champion", w: "Bantamweight" },
-];
+interface AchievementsContent {
+  pageHero?: { eyebrow?: string; title?: string; subtitle?: string; image?: string };
+  extendedStats?: { value: string; label: string }[];
+  recordsSection?: { eyebrow?: string; title?: string; image?: string };
+  records?: { year: string; title: string; weight: string }[];
+}
 
-export default function AchievementsPage() {
+export default async function AchievementsPage() {
+  const a = await fetchSectionData<AchievementsContent>("achievements", {});
+  const stats = a.extendedStats ?? [];
+  const records = a.records ?? [];
+
   return (
     <SiteLayout>
-      <PageHero
-        eyebrow="Achievements"
-        title="Champions Made Here."
-        subtitle="Belts, medals and the records of fighters built in this gym."
-        image={images.champion}
+      <DynamicHero
+        section="achievements"
+        fallback={{
+          eyebrow: a.pageHero?.eyebrow,
+          title: a.pageHero?.title ?? "",
+          subtitle: a.pageHero?.subtitle,
+          image: assetUrl(a.pageHero?.image) || "/images/champion.jpg",
+        }}
       />
 
       <section className="py-16 md:py-20 border-b border-border">
         <div className="container-x grid grid-cols-2 md:grid-cols-4 gap-10">
-          {[
-            { v: "12+", l: "National Titles" },
-            { v: "8", l: "International Belts" },
-            { v: "30+", l: "Podium Finishes" },
-            { v: "5", l: "WBC Champions" },
-          ].map((s) => (
-            <div key={s.l}>
+          {stats.map((s) => (
+            <div key={s.label}>
               <div className="font-display text-5xl md:text-7xl text-accent leading-none">
-                {s.v}
+                {s.value}
               </div>
               <div className="mt-3 text-xs tracking-[0.25em] uppercase text-muted-foreground">
-                {s.l}
+                {s.label}
               </div>
             </div>
           ))}
@@ -58,28 +59,33 @@ export default function AchievementsPage() {
 
       <section className="py-20 md:py-28">
         <div className="container-x grid md:grid-cols-[1fr_1.4fr] gap-12">
-          <div className="relative w-full aspect-[4/5] border border-border">
-            <Image
-              src={images.cageFighter}
-              alt=""
-              fill
-              sizes="(min-width: 768px) 40vw, 100vw"
-              className="object-cover"
-            />
-          </div>
+          {a.recordsSection?.image && (
+            <div className="relative w-full aspect-[4/5] border border-border">
+              <Image
+                src={assetUrl(a.recordsSection.image)}
+                alt=""
+                fill
+                sizes="(min-width: 768px) 40vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+          )}
           <div>
-            <SectionHeader eyebrow="Fight Record" title="Title By Title." />
+            <SectionHeader
+              eyebrow={a.recordsSection?.eyebrow}
+              title={a.recordsSection?.title ?? ""}
+            />
             <ul className="mt-10 divide-y divide-border border-y border-border">
-              {RECORDS.map((r, i) => (
+              {records.map((r, i) => (
                 <li key={i} className="py-5 grid grid-cols-[auto_1fr_auto] items-center gap-4">
                   <Trophy size={20} className="text-accent" />
                   <div>
-                    <div className="font-display tracking-wide">{r.t}</div>
+                    <div className="font-display tracking-wide">{r.title}</div>
                     <div className="text-xs text-muted-foreground tracking-[0.2em] uppercase mt-1">
-                      {r.w}
+                      {r.weight}
                     </div>
                   </div>
-                  <div className="font-display text-2xl text-secondary">{r.y}</div>
+                  <div className="font-display text-2xl text-secondary">{r.year}</div>
                 </li>
               ))}
             </ul>

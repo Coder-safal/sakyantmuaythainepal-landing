@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { ArrowRight, Calendar, MapPin } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
-import { PageHero } from "@/components/ui/PageHero";
+import { DynamicHero } from "@/components/ui/DynamicHero";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { assetUrl, fetchSectionData, fetchSiteConfig } from "@/lib/api";
 import { SITE } from "@/lib/site";
-import { images } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "The Contender Fight Series",
@@ -19,69 +19,94 @@ export const metadata: Metadata = {
   },
 };
 
-const MATCHES = [
-  { red: "Bibek Tamang", blue: "Kiran Rai", weight: "Lightweight · 70kg", title: false },
-  {
-    red: "Asha Gurung",
-    blue: "Mei Tanaka",
-    weight: "Women's Bantamweight · 55kg",
-    title: true,
-  },
-  { red: "Sujan KC", blue: "Aarav Pandey", weight: "Welterweight · 77kg", title: false },
-];
+interface ContenderContent {
+  pageHero?: { eyebrow?: string; title?: string; subtitle?: string; image?: string };
+  nextEvent?: {
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+    date?: string;
+    location?: string;
+    image?: string;
+    ctaLabel?: string;
+  };
+  fightCardSection?: { eyebrow?: string; title?: string };
+  fightCard?: { red: string; blue: string; weight: string; title?: boolean }[];
+  outro?: { title?: string; description?: string; image?: string };
+}
 
-export default function ContenderPage() {
+export default async function ContenderPage() {
+  const [contender, site] = await Promise.all([
+    fetchSectionData<ContenderContent>("contender", {}),
+    fetchSiteConfig(SITE),
+  ]);
+  const matches = contender.fightCard ?? [];
+
   return (
     <SiteLayout>
-      <PageHero
-        eyebrow="Our Home Promotion"
-        title="The Contender Fight Series."
-        subtitle="Nepal's most electric night of combat sport."
-        image={images.cageEvent}
+      <DynamicHero
+        section="contender"
+        fallback={{
+          eyebrow: contender.pageHero?.eyebrow,
+          title: contender.pageHero?.title ?? "",
+          subtitle: contender.pageHero?.subtitle,
+          image: assetUrl(contender.pageHero?.image) || "/images/cage-event.jpg",
+        }}
       />
 
       <section className="py-20 md:py-28">
         <div className="container-x grid md:grid-cols-2 gap-12 items-center">
           <div>
             <SectionHeader
-              eyebrow="Next Event"
-              title="Contender VII."
-              description="A full card of Muay Thai and MMA bouts. Title shots. Debutants. The future of Nepali combat sport — live."
+              eyebrow={contender.nextEvent?.eyebrow}
+              title={contender.nextEvent?.title ?? ""}
+              description={contender.nextEvent?.description}
             />
             <div className="mt-8 space-y-3 text-sm">
-              <div className="flex items-center gap-3">
-                <Calendar className="text-accent" size={18} /> Date · TBA 2026
-              </div>
-              <div className="flex items-center gap-3">
-                <MapPin className="text-accent" size={18} /> Pokhara, Nepal
-              </div>
+              {contender.nextEvent?.date && (
+                <div className="flex items-center gap-3">
+                  <Calendar className="text-accent" size={18} /> {contender.nextEvent.date}
+                </div>
+              )}
+              {contender.nextEvent?.location && (
+                <div className="flex items-center gap-3">
+                  <MapPin className="text-accent" size={18} /> {contender.nextEvent.location}
+                </div>
+              )}
             </div>
-            <a
-              href={SITE.whatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-8 inline-flex items-center gap-3 bg-accent text-accent-foreground px-7 py-4 text-sm tracking-[0.2em] uppercase font-semibold"
-            >
-              Inquire Tickets <ArrowRight size={16} />
-            </a>
+            {contender.nextEvent?.ctaLabel && (
+              <a
+                href={site.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-8 inline-flex items-center gap-3 bg-accent text-accent-foreground px-7 py-4 text-sm tracking-[0.2em] uppercase font-semibold"
+              >
+                {contender.nextEvent.ctaLabel} <ArrowRight size={16} />
+              </a>
+            )}
           </div>
-          <div className="relative aspect-[4/5] border border-accent/30 overflow-hidden">
-            <Image
-              src={images.cageFighter}
-              alt="Contender main event"
-              fill
-              sizes="(min-width: 768px) 50vw, 100vw"
-              className="h-full w-full object-cover"
-            />
-          </div>
+          {contender.nextEvent?.image && (
+            <div className="relative aspect-[4/5] border border-accent/30 overflow-hidden">
+              <Image
+                src={assetUrl(contender.nextEvent.image)}
+                alt="Contender main event"
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="h-full w-full object-cover"
+              />
+            </div>
+          )}
         </div>
       </section>
 
       <section className="py-20 md:py-28 bg-card border-y border-border">
         <div className="container-x">
-          <SectionHeader eyebrow="Fight Card" title="The Matchups." />
+          <SectionHeader
+            eyebrow={contender.fightCardSection?.eyebrow}
+            title={contender.fightCardSection?.title ?? ""}
+          />
           <div className="mt-12 space-y-4">
-            {MATCHES.map((m, i) => (
+            {matches.map((m, i) => (
               <div
                 key={i}
                 className="border border-border bg-background grid grid-cols-[1fr_auto_1fr] items-center gap-4 p-6 md:p-8"
@@ -111,22 +136,30 @@ export default function ContenderPage() {
         </div>
       </section>
 
-      <section className="relative py-24 overflow-hidden">
-        <Image
-          src={images.champion}
-          alt=""
-          fill
-          sizes="100vw"
-          className="absolute inset-0 w-full h-full object-cover opacity-25"
-        />
-        <div className="absolute inset-0 bg-background/85" />
-        <div className="relative container-x text-center">
-          <h3 className="font-display text-4xl md:text-6xl">Walk Out As A Champion.</h3>
-          <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-            Want to fight on the next Contender card? Apply through our fighter program.
-          </p>
-        </div>
-      </section>
+      {contender.outro && (
+        <section className="relative py-24 overflow-hidden">
+          {contender.outro.image && (
+            <>
+              <Image
+                src={assetUrl(contender.outro.image)}
+                alt=""
+                fill
+                sizes="100vw"
+                className="absolute inset-0 w-full h-full object-cover opacity-25"
+              />
+              <div className="absolute inset-0 bg-background/85" />
+            </>
+          )}
+          <div className="relative container-x text-center">
+            <h3 className="font-display text-4xl md:text-6xl">{contender.outro.title}</h3>
+            {contender.outro.description && (
+              <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
+                {contender.outro.description}
+              </p>
+            )}
+          </div>
+        </section>
+      )}
     </SiteLayout>
   );
 }

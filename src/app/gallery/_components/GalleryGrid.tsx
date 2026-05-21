@@ -2,33 +2,23 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { images } from "@/lib/images";
 
-const ITEMS = [
-  { src: images.gymInterior, cat: "Gym" },
-  { src: images.cageEvent, cat: "Fights" },
-  { src: images.cageFighter, cat: "Fights" },
-  { src: images.trainingKick, cat: "Training" },
-  { src: images.handWraps, cat: "Training" },
-  { src: images.champion, cat: "Achievements" },
-  { src: images.membershipPoster, cat: "Gym" },
-  { src: images.schedulePoster, cat: "Gym" },
-] as const;
+interface Props {
+  items: { src: string; cat: string }[];
+  categories: string[];
+}
 
-const CATS = ["All", "Gym", "Training", "Fights", "Achievements"] as const;
-type Cat = (typeof CATS)[number];
-
-export function GalleryGrid() {
-  const [cat, setCat] = useState<Cat>("All");
+export function GalleryGrid({ items, categories }: Props) {
+  const [cat, setCat] = useState<string>(categories[0] ?? "All");
   const [lightbox, setLightbox] = useState<string | null>(null);
-  const filtered = cat === "All" ? ITEMS : ITEMS.filter((i) => i.cat === cat);
+  const filtered = cat === "All" ? items : items.filter((i) => i.cat === cat);
 
   return (
     <>
       <section className="py-12 md:py-16">
         <div className="container-x">
           <div className="flex flex-wrap gap-3">
-            {CATS.map((c) => (
+            {categories.map((c) => (
               <button
                 key={c}
                 onClick={() => setCat(c)}

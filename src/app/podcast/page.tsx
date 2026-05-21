@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { Mic, Play } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
-import { PageHero } from "@/components/ui/PageHero";
+import { DynamicHero } from "@/components/ui/DynamicHero";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { images } from "@/lib/images";
+import { assetUrl, fetchSectionData } from "@/lib/api";
 
 export const metadata: Metadata = {
   title: "Beyond The Battles — Podcast",
@@ -18,49 +18,71 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PodcastPage() {
+interface PodcastContent {
+  pageHero?: { eyebrow?: string; title?: string; subtitle?: string; image?: string };
+  sectionLabel?: string;
+  heading?: string;
+  headingAccent?: string;
+  body?: string;
+  logoImage?: string;
+  episodesSection?: { eyebrow?: string; title?: string };
+  episodes?: { number: string; title: string }[];
+}
+
+export default async function PodcastPage() {
+  const p = await fetchSectionData<PodcastContent>("podcast", {});
+  const episodes = p.episodes ?? [];
+
   return (
     <SiteLayout>
-      <PageHero
-        eyebrow="A Podcast"
-        title="Beyond The Battles."
-        subtitle="Unseen. Unheard. Unspoken."
-        image={images.handWraps}
+      <DynamicHero
+        section="podcast"
+        fallback={{
+          eyebrow: p.pageHero?.eyebrow,
+          title: p.pageHero?.title ?? "",
+          subtitle: p.pageHero?.subtitle,
+          image: assetUrl(p.pageHero?.image) || "/images/hand-wraps.jpg",
+        }}
       />
 
       <section className="py-20 md:py-28">
         <div className="container-x grid md:grid-cols-[1fr_1.2fr] gap-12 items-center">
-          <div className="relative aspect-square bg-card border border-border p-10 grid place-items-center">
-            <Image
-              src={images.podcastLogo}
-              alt="Beyond The Battles"
-              fill
-              sizes="(min-width: 768px) 40vw, 80vw"
-              className="object-contain p-10"
-            />
-          </div>
-          <div>
-            <div className="flex items-center gap-2 text-secondary text-[11px] tracking-[0.3em] uppercase mb-3">
-              <Mic size={14} /> Coming Soon
+          {p.logoImage && (
+            <div className="relative aspect-square bg-card border border-border p-10 grid place-items-center">
+              <Image
+                src={assetUrl(p.logoImage)}
+                alt="Beyond The Battles"
+                fill
+                sizes="(min-width: 768px) 40vw, 80vw"
+                className="object-contain p-10"
+              />
             </div>
+          )}
+          <div>
+            {p.sectionLabel && (
+              <div className="flex items-center gap-2 text-secondary text-[11px] tracking-[0.3em] uppercase mb-3">
+                <Mic size={14} /> {p.sectionLabel}
+              </div>
+            )}
             <h2 className="font-display text-4xl md:text-6xl leading-[0.95]">
-              The Stories Behind <span className="text-accent">The Fighters.</span>
+              {p.heading}{" "}
+              {p.headingAccent && <span className="text-accent">{p.headingAccent}</span>}
             </h2>
-            <p className="mt-5 text-muted-foreground text-lg">
-              Long-form conversations with the athletes, coaches, and characters of Nepal&apos;s
-              fast-growing combat sport scene. Subscribe — we drop episode one soon.
-            </p>
+            {p.body && <p className="mt-5 text-muted-foreground text-lg">{p.body}</p>}
           </div>
         </div>
       </section>
 
       <section className="py-20 md:py-28 bg-card border-y border-border">
         <div className="container-x">
-          <SectionHeader eyebrow="Episodes" title="Coming Soon." />
+          <SectionHeader
+            eyebrow={p.episodesSection?.eyebrow}
+            title={p.episodesSection?.title ?? ""}
+          />
           <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {[1, 2, 3].map((n) => (
+            {episodes.map((ep) => (
               <div
-                key={n}
+                key={ep.number}
                 className="relative aspect-video border border-border bg-background grid place-items-center group"
               >
                 <Play
@@ -69,9 +91,9 @@ export default function PodcastPage() {
                 />
                 <div className="absolute bottom-0 inset-x-0 p-4 border-t border-border">
                   <div className="text-[10px] tracking-[0.3em] uppercase text-secondary">
-                    Episode 0{n}
+                    Episode {ep.number}
                   </div>
-                  <div className="font-display mt-1">Trailer Drop</div>
+                  <div className="font-display mt-1">{ep.title}</div>
                 </div>
               </div>
             ))}
