@@ -9,6 +9,9 @@ import { NAV } from "@/lib/site";
 import { images } from "@/lib/images";
 import type { SiteConfig } from "@/lib/api";
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3000/api/v1";
+const GOOGLE_LOGIN_URL = `${API_BASE}/auth/google`;
+
 export function Navbar({ site }: { site: Pick<SiteConfig, "whatsapp"> }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -71,12 +74,18 @@ export function Navbar({ site }: { site: Pick<SiteConfig, "whatsapp"> }) {
           })}
         </nav>
 
-        <div className="hidden lg:block">
+        <div className="hidden lg:flex items-center gap-4">
+          <a
+            href={GOOGLE_LOGIN_URL}
+            className="text-[13px] tracking-[0.15em] uppercase font-medium text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Sign In
+          </a>
           <a
             href={site.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center bg-accent text-accent-foreground px-5 py-2.5 text-xs tracking-[0.2em] uppercase font-semibold hover:bg-accent/90 transition-colors"
+            className="inline-flex items-center justify-center bg-accent text-accent-foreground pl-5 pr-[calc(1.25rem-0.2em)] py-2.5 text-xs tracking-[0.2em] uppercase font-semibold hover:bg-accent/90 transition-colors"
           >
             Join Now
           </a>
@@ -104,10 +113,16 @@ export function Navbar({ site }: { site: Pick<SiteConfig, "whatsapp"> }) {
               </Link>
             ))}
             <a
+              href={GOOGLE_LOGIN_URL}
+              className="mt-4 py-3 text-center text-sm tracking-[0.15em] uppercase border border-border text-foreground/90 hover:text-accent"
+            >
+              Sign In with Google
+            </a>
+            <a
               href={site.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 text-center bg-accent text-accent-foreground py-3 text-xs tracking-[0.25em] uppercase font-semibold"
+              className="mt-2 inline-flex justify-center bg-accent text-accent-foreground py-3 pl-[0.25em] pr-0 text-xs tracking-[0.25em] uppercase font-semibold"
             >
               Join Now
             </a>
