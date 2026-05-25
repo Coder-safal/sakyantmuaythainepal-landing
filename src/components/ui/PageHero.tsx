@@ -24,7 +24,7 @@ export function PageHero({ eyebrow, title, subtitle, image }: Props) {
         {eyebrow && (
           <div className="flex items-center gap-3 mb-4">
             <span className="h-px w-8 bg-accent" />
-            <span className="text-[11px] tracking-[0.3em] uppercase text-secondary font-semibold">
+            <span className="text-[11px] tracking-[0.3em] uppercase text-accent font-semibold">
               {eyebrow}
             </span>
           </div>

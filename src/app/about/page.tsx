@@ -66,7 +66,7 @@ export default async function AboutPage() {
           <div className="relative container-x h-full flex items-center">
             <div className="max-w-lg">
               {about.mission.eyebrow && (
-                <div className="text-[11px] tracking-[0.3em] uppercase text-secondary mb-3">
+                <div className="text-[11px] tracking-[0.3em] uppercase text-accent mb-3">
                   {about.mission.eyebrow}
                 </div>
               )}

@@ -121,7 +121,7 @@ export default async function ContenderPage() {
                     {m.weight}
                   </div>
                   {m.title && (
-                    <div className="mt-1 text-[10px] tracking-[0.25em] text-secondary">
+                    <div className="mt-1 text-[10px] tracking-[0.25em] text-accent">
                       ★ Title Bout
                     </div>
                   )}

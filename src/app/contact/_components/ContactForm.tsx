@@ -42,7 +42,7 @@ export function ContactForm() {
         <div key={f.name}>
           <label
             htmlFor={f.name}
-            className="text-[11px] tracking-[0.25em] uppercase text-secondary"
+            className="text-[11px] tracking-[0.25em] uppercase text-accent"
           >
             {f.label}
           </label>
@@ -58,7 +58,7 @@ export function ContactForm() {
       <div>
         <label
           htmlFor="message"
-          className="text-[11px] tracking-[0.25em] uppercase text-secondary"
+          className="text-[11px] tracking-[0.25em] uppercase text-accent"
         >
           Message
         </label>

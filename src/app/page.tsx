@@ -2,37 +2,37 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  ArrowRight,
-  MapPin,
-  Calendar,
+  ArrowUpRight,
+  ChevronDown,
+  Flame,
+  Swords,
+  Dumbbell,
+  Footprints,
+  Activity,
+  Trees,
+  MessageCircle,
   Mic,
   Trophy,
-  Flame,
-  Dumbbell,
-  Users,
-  Mountain,
-  Plane,
-  Bed,
-  Sparkles,
-  Mail,
-  Clock,
-  Ticket,
+  ShoppingBag,
+  Quote,
 } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { YantraMark } from "@/components/ui/YantraMark";
+import { SealBackdrop } from "@/components/ui/SealBackdrop";
+import { Reveal } from "@/components/ui/Reveal";
 import { SITE } from "@/lib/site";
 import { images } from "@/lib/images";
 
 export const metadata: Metadata = {
-  title: "Sak Yant Muay Thai Nepal — Elite Fight Academy in Pokhara",
+  title: "Sak Yant Muay Thai Nepal — Muay Thai · MMA · Fitness in Pokhara",
   description:
-    "Train Muay Thai and MMA in Pokhara, Nepal under championship coaches. Home of The Contender Fight Series. Memberships for foreign and Nepali athletes, kids, and pros.",
+    "World-class Muay Thai, MMA (BJJ, wrestling, kickboxing) and fitness training in the heart of Lakeside, Pokhara. For first-timers and professionals.",
   alternates: { canonical: "/" },
   openGraph: {
     title: "Sak Yant Muay Thai Nepal",
-    description: "Elite Muay Thai & MMA academy in Pokhara, Nepal.",
+    description:
+      "Muay Thai · MMA · Fitness — In the heart of Lakeside, Pokhara, Nepal.",
     type: "website",
     url: "/",
   },
@@ -42,9 +42,15 @@ const SCHEMA = {
   "@context": "https://schema.org",
   "@type": "SportsActivityLocation",
   name: "Sak Yant Muay Thai Nepal",
-  description: "Premier Muay Thai and MMA academy in Pokhara, Nepal.",
-  address: { "@type": "PostalAddress", addressLocality: "Pokhara", addressCountry: "NP" },
-  sport: ["Muay Thai", "Mixed Martial Arts"],
+  description:
+    "Muay Thai, MMA (BJJ, wrestling, kickboxing) and fitness training in Lakeside, Pokhara, Nepal.",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Pokhara",
+    addressRegion: "Lakeside",
+    addressCountry: "NP",
+  },
+  sport: ["Muay Thai", "Mixed Martial Arts", "Brazilian Jiu-Jitsu", "Kickboxing", "Wrestling", "Fitness"],
 };
 
 export default function HomePage() {
@@ -55,72 +61,106 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }}
       />
       <Hero />
-      <Marquee />
-      <PromoStrip />
-      <TrainLikeFighter />
-      <PhilosophyImage />
-      <Programs />
+      <SacredMarquee />
+      <About />
+      <OurClasses />
       <UpcomingEvents />
-      <ContenderHighlight />
-      <SakYantTheme />
-      <Retreats />
-      <Lakeside />
-      <Trainers />
-      <Facilities />
-      <Achievements />
-      <Podcast />
-      <GalleryPreview />
+      <SakYantSymbolism />
+      <CinematicGallery />
+      <FightStoreTeaser />
+      <Philosophy />
       <Testimonials />
-      <Sponsors />
-      <Visit />
-      <Newsletter />
-      <FinalCTA />
+      <FinalInvocation />
     </SiteLayout>
   );
 }
 
+/* ────────────────────────────────────────────────────────────
+   HERO — fullscreen cinematic
+   ──────────────────────────────────────────────────────────── */
 function Hero() {
   return (
-    <section className="relative -mt-16 md:-mt-20 h-[100svh] min-h-[640px] overflow-hidden">
-      <Image
-        src={images.heroFighter}
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/20 to-background" />
-      <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-transparent to-background/60" />
-
-      <div className="relative h-full container-x flex items-center justify-center">
-        <YantraMark className="h-64 w-64 md:h-96 md:w-96 text-accent/40 reveal" />
+    <section className="relative -mt-18 md:-mt-22 h-[100svh] min-h-[720px] overflow-hidden grain">
+      <div className="absolute inset-0 ken-burns">
+        <Image
+          src={images.heroFighter}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
       </div>
 
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-[10px] tracking-[0.4em] text-muted-foreground uppercase">
-        Scroll
+      {/* Bangtao cinema gradient overlays */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(10,10,10,0.2),_rgba(10,10,10,0.92))]" />
+      <div className="absolute inset-0 cinema-overlay" />
+      <div className="absolute inset-0 vignette" />
+
+      {/* Floating particles */}
+      <div className="absolute inset-0 pointer-events-none">
+        <span className="absolute top-1/4 left-[18%] h-1 w-1 bg-accent/80 rounded-full float-slow" />
+        <span className="absolute top-1/3 right-[22%] h-1 w-1 bg-accent/70 rounded-full float-mid" />
+        <span className="absolute bottom-1/3 left-1/3 h-[3px] w-[3px] bg-accent rounded-full float-slow" />
+        <span className="absolute bottom-1/4 right-1/4 h-1 w-1 bg-accent/60 rounded-full float-mid" />
+      </div>
+
+      <div className="relative h-full container-x flex flex-col justify-end items-center text-center pb-32">
+        <Reveal delay={3}>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/contact"
+              className="group inline-flex items-center gap-3 bg-accent text-accent-foreground px-9 py-5 text-[11px] tracking-[0.4em] uppercase font-semibold hover:bg-foreground transition-all duration-500"
+            >
+              Book Now
+              <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </Link>
+            <a
+              href={SITE.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-3 glass text-foreground px-9 py-5 text-[11px] tracking-[0.4em] uppercase font-semibold hover:border-accent transition-all duration-500"
+            >
+              <MessageCircle size={15} className="text-accent" />
+              Connect on WhatsApp
+            </a>
+          </div>
+        </Reveal>
+      </div>
+
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 text-accent/70">
+        <span className="text-[10px] tracking-[0.5em] uppercase">Scroll</span>
+        <ChevronDown size={14} className="animate-bounce" />
       </div>
     </section>
   );
 }
 
+/* ────────────────────────────────────────────────────────────
+   SACRED MARQUEE
+   ──────────────────────────────────────────────────────────── */
 const MARQUEE_ITEMS = [
   "MUAY THAI",
   "MMA",
-  "THE CONTENDER FIGHT SERIES",
-  "POKHARA · NEPAL",
-  "WBC MUAYTHAI",
-  "FIGHT · TRAIN · BELONG",
+  "BJJ",
+  "WRESTLING",
+  "KICKBOXING",
+  "FITNESS",
+  "LAKESIDE · POKHARA",
 ];
 
-function Marquee() {
+function SacredMarquee() {
   return (
-    <section className="border-y border-border bg-background py-5 overflow-hidden">
+    <section className="border-y border-accent/15 bg-card/40 py-6 overflow-hidden">
       <div className="marquee">
         <div className="marquee-track">
           {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((t, i) => (
-            <span key={i} className="font-display text-2xl md:text-3xl text-stroke">
-              {t} <span className="text-accent">✦</span>
+            <span
+              key={i}
+              className="font-display text-2xl md:text-4xl text-stroke flex items-center gap-8"
+            >
+              {t}
+              <span className="text-accent text-xl">✦</span>
             </span>
           ))}
         </div>
@@ -129,832 +169,196 @@ function Marquee() {
   );
 }
 
-function TrainLikeFighter() {
-  const pillars = [
+/* ────────────────────────────────────────────────────────────
+   ABOUT
+   ──────────────────────────────────────────────────────────── */
+function About() {
+  return (
+    <section className="relative py-24 md:py-40 overflow-hidden sacred-bg">
+      <div className="pointer-events-none absolute inset-0 grid place-items-center">
+        <SealBackdrop spin="cw" className="h-[60vmin] w-[60vmin] opacity-20" />
+      </div>
+
+      <div className="relative container-x grid lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+        <Reveal variant="fade" className="lg:col-span-6">
+          <div className="relative">
+            <div className="relative aspect-[4/5] overflow-hidden hairline">
+              <Image
+                src={images.handWraps}
+                alt="A warrior carries the sacred mark"
+                fill
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover ken-burns"
+              />
+              <div className="absolute inset-0 smoke-overlay-light" />
+              <div className="absolute inset-0 vignette" />
+            </div>
+            <div className="absolute top-6 left-6 text-[10px] tracking-[0.4em] uppercase text-accent/90 bg-background/60 backdrop-blur-md px-4 py-2 border border-accent/20">
+              Sacred · Discipline
+            </div>
+          </div>
+        </Reveal>
+
+        <div className="lg:col-span-6">
+          <SectionHeader
+            eyebrow="Our Story"
+            title={
+              <>
+                Two ancient
+                <br />
+                <span className="gold-gradient">paths converge.</span>
+              </>
+            }
+          />
+          <Reveal delay={2}>
+            <div className="mt-10 space-y-6 text-muted-foreground leading-[1.85] text-base md:text-lg max-w-xl">
+              <p>
+                For centuries, Thai warriors carried{" "}
+                <em className="text-accent not-italic">Sak Yant</em> — sacred geometric ink
+                etched by monks, blessed with mantras, worn as armour against the unseen.
+              </p>
+              <p>
+                In Lakeside Pokhara we have built a modern studio where the ancient warrior
+                code meets the calm of the Annapurnas. Muay Thai. MMA. Fitness. For every
+                body, every level — from first round to first belt.
+              </p>
+            </div>
+          </Reveal>
+
+          <Reveal delay={3}>
+            <div className="mt-12 grid grid-cols-3 gap-px bg-accent/10">
+              {[
+                { value: "6", label: "Disciplines" },
+                { value: "108", label: "Sacred Mantras" },
+                { value: "∞", label: "Inner Stillness" },
+              ].map((s) => (
+                <div key={s.label} className="bg-background p-6 text-center hairline">
+                  <div className="font-display text-4xl md:text-5xl gold-gradient leading-none">
+                    {s.value}
+                  </div>
+                  <div className="mt-3 text-[10px] tracking-[0.35em] uppercase text-muted-foreground">
+                    {s.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   OUR CLASSES — the real offering
+   ──────────────────────────────────────────────────────────── */
+function OurClasses() {
+  const classes = [
     {
       Icon: Flame,
-      title: "Authentic Muay Thai",
-      text: "Traditional eight-limb striking taught by championship coaches.",
-    },
-    {
-      Icon: Dumbbell,
-      title: "Conditioning",
-      text: "Strength, agility, and combat-ready endurance — built daily.",
-    },
-    {
-      Icon: Users,
-      title: "Real Community",
-      text: "Train alongside pros, beginners, and international athletes.",
-    },
-    {
-      Icon: Trophy,
-      title: "Fight-Ready",
-      text: "From your first jab to your first belt — we build careers.",
-    },
-  ];
-
-  return (
-    <section className="py-20 md:py-32 grain">
-      <div className="container-x">
-        <SectionHeader
-          eyebrow="Train Like A Fighter"
-          title={
-            <>
-              This is not a gym.
-              <br />
-              It&apos;s a <span className="text-accent">fight school.</span>
-            </>
-          }
-          description="Every session is structured around the science of combat. Whether you stepped in for fitness or to chase a title, you'll train next to people who do this for real."
-        />
-        <div className="mt-14 grid gap-px bg-border md:grid-cols-2 lg:grid-cols-4">
-          {pillars.map(({ Icon, title, text }) => (
-            <div
-              key={title}
-              className="bg-background p-7 md:p-9 hover:bg-card transition-colors group"
-            >
-              <Icon
-                className="text-accent mb-6 group-hover:scale-110 transition-transform"
-                size={28}
-              />
-              <h3 className="font-display text-xl tracking-wider">{title}</h3>
-              <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{text}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function PhilosophyImage() {
-  return (
-    <section className="relative h-[70vh] min-h-[480px] overflow-hidden">
-      <Image
-        src={images.handWraps}
-        alt="Fighter wrapping hands"
-        fill
-        sizes="100vw"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
-      <div className="relative container-x h-full flex items-center">
-        <div className="max-w-xl">
-          <div className="flex items-center gap-3 mb-5">
-            <span className="h-px w-8 bg-accent" />
-            <span className="text-[11px] tracking-[0.3em] uppercase text-secondary font-semibold">
-              Philosophy
-            </span>
-          </div>
-          <h2 className="font-display text-4xl md:text-6xl leading-[0.95]">
-            Discipline is the <span className="text-accent">only</span> shortcut.
-          </h2>
-          <p className="mt-5 text-muted-foreground text-base md:text-lg leading-relaxed">
-            We don&apos;t sell quick fixes. We sell early mornings, bruised shins, and the quiet
-            pride of becoming the strongest version of yourself.
-          </p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Programs() {
-  const programs = [
-    {
-      title: "Muay Thai For All",
-      price: "NPR 6,000/mo",
-      desc: "Open group classes for every level — fitness to fight prep.",
+      tag: "01",
+      title: "Muay Thai",
+      desc: "The art of eight limbs. Traditional Thai striking, clinch work and ring craft.",
       img: images.trainingKick,
     },
     {
-      title: "Fighter Program",
-      price: "Application Only",
-      desc: "Career path for athletes competing at national & international level.",
-      img: images.cageFighter,
-    },
-    {
-      title: "Kids Muay Thai",
-      price: "NPR 5,000/mo",
-      desc: "Discipline, confidence, and movement for the next generation.",
-      img: images.gymInterior,
-    },
-  ];
-  return (
-    <section className="py-20 md:py-32 bg-card border-y border-border">
-      <div className="container-x">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-          <SectionHeader
-            eyebrow="Programs"
-            title="Choose Your Path."
-            description="From your first class to your tenth title fight — we have a program built for it."
-          />
-          <Link
-            href="/membership"
-            className="text-sm tracking-[0.2em] uppercase text-accent hover:text-foreground inline-flex items-center gap-2"
-          >
-            View All Plans <ArrowRight size={14} />
-          </Link>
-        </div>
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
-          {programs.map((p) => (
-            <div
-              key={p.title}
-              className="group relative overflow-hidden border border-border bg-background"
-            >
-              <div className="aspect-[4/5] overflow-hidden relative">
-                <Image
-                  src={p.img}
-                  alt={p.title}
-                  fill
-                  sizes="(min-width: 768px) 33vw, 100vw"
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-              </div>
-              <div className="absolute bottom-0 inset-x-0 p-6">
-                <div className="text-[11px] tracking-[0.3em] uppercase text-secondary mb-2">
-                  {p.price}
-                </div>
-                <h3 className="font-display text-2xl md:text-3xl">{p.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{p.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ContenderHighlight() {
-  return (
-    <section className="relative py-24 md:py-40 overflow-hidden">
-      <Image
-        src={images.cageEvent}
-        alt="The Contender fight night cage"
-        fill
-        sizes="100vw"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-      <div className="absolute inset-0 bg-background/85" />
-      <div className="relative container-x grid md:grid-cols-2 gap-12 items-center">
-        <div>
-          <div className="flex items-center gap-3 mb-5">
-            <span className="h-px w-8 bg-accent" />
-            <span className="text-[11px] tracking-[0.3em] uppercase text-secondary font-semibold">
-              Our Home Promotion
-            </span>
-          </div>
-          <h2 className="font-display text-5xl md:text-7xl leading-[0.9]">
-            The <span className="text-accent">Contender</span>
-            <br />
-            Fight Series.
-          </h2>
-          <p className="mt-6 text-muted-foreground text-lg max-w-md leading-relaxed">
-            Nepal&apos;s most electric night of combat sport. Real fights, real stories, real
-            careers — born in our gym, fought on our stage.
-          </p>
-          <Link
-            href="/contender"
-            className="mt-8 inline-flex items-center gap-3 bg-accent text-accent-foreground px-7 py-4 text-sm tracking-[0.2em] uppercase font-semibold hover:bg-accent/90"
-          >
-            Enter The Cage <ArrowRight size={16} />
-          </Link>
-        </div>
-        <div className="relative aspect-[4/5] border border-accent/30">
-          <Image
-            src={images.cageFighter}
-            alt="Cage fighter celebrating"
-            fill
-            sizes="(min-width: 768px) 50vw, 100vw"
-            className="h-full w-full object-cover"
-          />
-          <div className="absolute -bottom-4 -right-4 hidden md:block bg-accent text-accent-foreground px-5 py-3 font-display text-sm tracking-[0.2em]">
-            NEXT EVENT · TBA
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Trainers() {
-  const coaches = [images.champion, images.cageFighter, images.handWraps];
-  return (
-    <section className="py-20 md:py-32">
-      <div className="container-x">
-        <SectionHeader
-          eyebrow="The Coaching Team"
-          title="Coached By Champions."
-          description="Our team is led by national and international champions who have lived this sport at the highest level."
-        />
-        <div className="mt-14 grid gap-px bg-border md:grid-cols-3">
-          {coaches.map((img, i) => (
-            <div key={i} className="bg-background group relative aspect-[3/4] overflow-hidden">
-              <Image
-                src={img}
-                alt="Coach"
-                fill
-                sizes="(min-width: 768px) 33vw, 100vw"
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
-              <div className="absolute bottom-0 inset-x-0 p-6">
-                <div className="text-[11px] tracking-[0.3em] uppercase text-secondary">
-                  Head Coach
-                </div>
-                <div className="font-display text-2xl mt-1">Coach {i + 1}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Achievements() {
-  const stats = [
-    { v: "12+", l: "National Titles" },
-    { v: "8", l: "International Belts" },
-    { v: "150+", l: "Active Fighters" },
-    { v: "5", l: "Years Of Legacy" },
-  ];
-  const records = [
-    { year: "2025", title: "WBC Muaythai Asia Bronze", weight: "Lightweight · 60kg" },
-    { year: "2025", title: "National Muay Thai Champion", weight: "Welterweight · 67kg" },
-    { year: "2024", title: "South Asian Games Silver", weight: "Featherweight · 57kg" },
-    { year: "2024", title: "The Contender Title", weight: "Bantamweight · 53kg" },
-    { year: "2024", title: "ONE Warrior Series Finalist", weight: "Lightweight · 70kg" },
-    { year: "2023", title: "National MMA Champion", weight: "Middleweight · 84kg" },
-    { year: "2023", title: "WBC Muaythai National Open", weight: "Flyweight · 50kg" },
-    { year: "2022", title: "International Muay Thai Cup Bronze", weight: "Featherweight · 57kg" },
-  ];
-  return (
-    <section className="relative border-y border-border overflow-hidden">
-      <Image
-        src={images.achievements}
-        alt=""
-        fill
-        sizes="100vw"
-        className="absolute inset-0 w-full h-full object-cover opacity-15"
-      />
-      <div className="absolute inset-0 bg-background/85" />
-
-      <div className="relative container-x py-16 md:py-20 border-b border-border">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
-          {stats.map((s) => (
-            <div key={s.l} className="text-center md:text-left">
-              <div className="font-display text-5xl md:text-7xl text-accent leading-none">
-                {s.v}
-              </div>
-              <div className="mt-3 text-xs tracking-[0.25em] uppercase text-muted-foreground">
-                {s.l}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="relative container-x py-16 md:py-24">
-        <SectionHeader
-          eyebrow="The Record Book"
-          title={
-            <>
-              Titles, Belts &amp; <span className="text-accent">Podiums.</span>
-            </>
-          }
-          description="A living record of every podium our fighters have earned. The wall keeps growing."
-        />
-        <ul className="mt-12 divide-y divide-border border-y border-border">
-          {records.map((r, i) => (
-            <li
-              key={i}
-              className="py-5 grid grid-cols-[auto_1fr_auto] items-center gap-4 hover:bg-card/50 transition-colors px-2"
-            >
-              <Trophy size={20} className="text-accent" />
-              <div>
-                <div className="font-display tracking-wide text-base md:text-lg">{r.title}</div>
-                <div className="text-xs text-muted-foreground tracking-[0.2em] uppercase mt-1">
-                  {r.weight}
-                </div>
-              </div>
-              <div className="font-display text-2xl md:text-3xl text-secondary">{r.year}</div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
-}
-
-function Podcast() {
-  return (
-    <section className="py-20 md:py-32 bg-card border-b border-border">
-      <div className="container-x grid md:grid-cols-2 gap-12 items-center">
-        <div className="relative aspect-square max-w-md mx-auto md:mx-0 bg-background border border-border p-10 grid place-items-center">
-          <Image
-            src={images.podcastLogo}
-            alt="Beyond The Battles Podcast"
-            fill
-            sizes="(min-width: 768px) 50vw, 100vw"
-            className="object-contain p-10"
-          />
-        </div>
-        <div>
-          <div className="flex items-center gap-3 mb-5">
-            <Mic size={16} className="text-accent" />
-            <span className="text-[11px] tracking-[0.3em] uppercase text-secondary font-semibold">
-              A Podcast · Coming Soon
-            </span>
-          </div>
-          <h2 className="font-display text-4xl md:text-6xl leading-[0.95]">
-            Beyond The <span className="text-accent">Battles.</span>
-          </h2>
-          <p className="mt-5 text-muted-foreground text-lg">
-            Unseen. Unheard. Unspoken. The stories of the fighters, coaches and dreamers building
-            combat sport in Nepal.
-          </p>
-          <Link
-            href="/podcast"
-            className="mt-8 inline-flex items-center gap-3 border border-foreground/30 px-7 py-4 text-sm tracking-[0.2em] uppercase font-semibold hover:border-foreground hover:bg-foreground/5"
-          >
-            Explore Episodes <ArrowRight size={16} />
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function GalleryPreview() {
-  const imgs = [
-    images.gymInterior,
-    images.cageEvent,
-    images.trainingKick,
-    images.cageFighter,
-    images.handWraps,
-    images.champion,
-  ];
-  return (
-    <section className="py-20 md:py-32">
-      <div className="container-x">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-          <SectionHeader eyebrow="Inside The Gym" title="The Atmosphere." />
-          <Link
-            href="/gallery"
-            className="text-sm tracking-[0.2em] uppercase text-accent hover:text-foreground inline-flex items-center gap-2"
-          >
-            Full Gallery <ArrowRight size={14} />
-          </Link>
-        </div>
-      </div>
-      <div className="mt-12 grid grid-cols-2 md:grid-cols-3 gap-1">
-        {imgs.map((img, i) => (
-          <div
-            key={i}
-            className={`relative overflow-hidden group ${
-              i === 0 ? "md:row-span-2 aspect-[3/4] md:aspect-auto" : "aspect-square"
-            }`}
-          >
-            <Image
-              src={img}
-              alt=""
-              fill
-              sizes="(min-width: 768px) 33vw, 50vw"
-              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-accent/0 group-hover:bg-accent/20 transition-colors" />
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function Testimonials() {
-  const quotes = [
-    {
-      q: "Trained here for three months. Best Muay Thai experience I've had outside of Thailand.",
-      a: "Jake M.",
-      r: "Australian Athlete",
-    },
-    {
-      q: "The discipline and culture here is real. They build fighters and people.",
-      a: "Aarti S.",
-      r: "Amateur Fighter",
-    },
-    {
-      q: "World-class pads, world-class community. The mountains are just a bonus.",
-      a: "Luca R.",
-      r: "Visiting Pro",
-    },
-  ];
-  return (
-    <section className="py-20 md:py-32 bg-card border-y border-border">
-      <div className="container-x">
-        <SectionHeader
-          eyebrow="Voices From The Mat"
-          title="What Our Fighters Say."
-          align="center"
-        />
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
-          {quotes.map((q) => (
-            <figure key={q.a} className="border border-border p-8 bg-background relative">
-              <div className="absolute top-4 right-5 font-display text-6xl text-accent/30">
-                &quot;
-              </div>
-              <blockquote className="text-foreground/90 leading-relaxed">{q.q}</blockquote>
-              <figcaption className="mt-6 pt-6 border-t border-border">
-                <div className="font-display tracking-wider">{q.a}</div>
-                <div className="text-xs text-muted-foreground tracking-[0.2em] uppercase mt-1">
-                  {q.r}
-                </div>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Sponsors() {
-  const names = ["FAIRTEX", "WBC MUAYTHAI", "XTREME", "ESCAPE", "CONTENDER"];
-  return (
-    <section className="py-16 border-b border-border">
-      <div className="container-x">
-        <div className="text-center text-[11px] tracking-[0.35em] uppercase text-muted-foreground mb-8">
-          Trusted Partners
-        </div>
-        <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-6">
-          {names.map((n) => (
-            <div key={n} className="font-display text-xl md:text-2xl text-stroke tracking-widest">
-              {n}
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Visit() {
-  const site = SITE;
-  return (
-    <section className="py-20 md:py-32">
-      <div className="container-x grid md:grid-cols-2 gap-10 items-stretch">
-        <div className="flex flex-col justify-center">
-          <SectionHeader
-            eyebrow="Visit Us"
-            title="Find Us In Pokhara."
-            description="Drop in for a class, a tour, or a chai. We're open to anyone serious about the sport."
-          />
-          <ul className="mt-8 space-y-4 text-sm">
-            <li className="flex gap-3">
-              <MapPin className="text-accent shrink-0 mt-0.5" size={18} /> {site.location}
-            </li>
-            <li className="flex gap-3">
-              <Calendar className="text-accent shrink-0 mt-0.5" size={18} /> Mon–Sat · 7AM–8:30PM
-            </li>
-          </ul>
-          <div className="mt-8 flex gap-3 flex-wrap">
-            <a
-              href={site.mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-accent text-accent-foreground px-6 py-3 text-xs tracking-[0.2em] uppercase font-semibold"
-            >
-              Get Directions
-            </a>
-            <Link
-              href="/contact"
-              className="border border-foreground/30 px-6 py-3 text-xs tracking-[0.2em] uppercase font-semibold hover:border-foreground"
-            >
-              Contact Us
-            </Link>
-          </div>
-        </div>
-        <div className="aspect-video md:aspect-auto md:min-h-[420px] border border-border overflow-hidden">
-          <iframe
-            src={site.mapsEmbed}
-            className="w-full h-full grayscale contrast-125"
-            loading="lazy"
-            title="Sak Yant Muay Thai Nepal location"
-          />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function SakYantTheme() {
-  return (
-    <section className="relative py-20 md:py-32 bg-card border-y border-border overflow-hidden">
-      <div className="absolute -left-20 top-1/2 -translate-y-1/2 opacity-[0.06] pointer-events-none">
-        <YantraMark className="h-[420px] w-[420px] text-accent" />
-      </div>
-      <div className="absolute -right-20 top-1/2 -translate-y-1/2 opacity-[0.06] pointer-events-none">
-        <YantraMark className="h-[420px] w-[420px] text-bronze" />
-      </div>
-
-      <div className="relative container-x grid lg:grid-cols-2 gap-12 items-center">
-        <div className="flex justify-center order-2 lg:order-1">
-          <YantraMark className="h-72 w-72 md:h-96 md:w-96 text-accent" />
-        </div>
-        <div className="order-1 lg:order-2">
-          <SectionHeader
-            eyebrow="The Name"
-            title={
-              <>
-                Sak Yant. <br />
-                <span className="text-accent">Sacred Geometry.</span>
-              </>
-            }
-            description="In the Muay Thai tradition, Sak Yant is the sacred geometric ink worn by warriors — symbols of protection, discipline, and the quiet strength a fighter carries beyond the ring. We took the name because we believe in the same idea: train the body, sharpen the spirit, carry the mark."
-          />
-          <ul className="mt-8 grid sm:grid-cols-3 gap-px bg-border">
-            {[
-              { label: "Discipline", text: "Show up. Every day." },
-              { label: "Protection", text: "Train with care. Spar with respect." },
-              { label: "Strength", text: "Forged in the gym. Carried for life." },
-            ].map((p) => (
-              <li key={p.label} className="bg-card p-5">
-                <div className="text-[11px] tracking-[0.3em] uppercase text-accent font-semibold mb-2">
-                  {p.label}
-                </div>
-                <div className="text-sm text-muted-foreground">{p.text}</div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Lakeside() {
-  return (
-    <section className="relative py-20 md:py-32 overflow-hidden">
-      <Image
-        src={images.gymInterior}
-        alt=""
-        fill
-        sizes="100vw"
-        className="absolute inset-0 w-full h-full object-cover opacity-20"
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/60 to-background" />
-
-      <div className="relative container-x">
-        <div className="max-w-3xl mx-auto text-center">
-          <YantraMark className="h-12 w-12 text-accent mx-auto mb-6" />
-          <div className="text-[11px] tracking-[0.4em] uppercase text-secondary font-semibold mb-5">
-            Phewa Lakeside · Pokhara
-          </div>
-          <h2 className="font-display text-4xl md:text-6xl lg:text-7xl leading-[0.95]">
-            Train Hard. <br />
-            <span className="text-accent">Breathe Easy.</span>
-          </h2>
-          <p className="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed">
-            The gym sits minutes from Phewa Lake, with the Annapurna range on the horizon. The
-            sessions are brutal — the recovery is unreal. Cold lake mornings, lakeside walks,
-            paragliding off Sarangkot, dal-bhat on the way home. This is what training in Nepal
-            actually feels like.
-          </p>
-        </div>
-
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
-          {[
-            {
-              tag: "Lake",
-              title: "Phewa",
-              text: "Sunrise rows, cold dips, and the calmest mile of mat-prep you'll ever do.",
-            },
-            {
-              tag: "Mountain",
-              title: "Sarangkot",
-              text: "Pre-dawn hike, Annapurna sunrise, paraglide back down on a rest day.",
-            },
-            {
-              tag: "Town",
-              title: "Lakeside",
-              text: "Cafés, recovery food, physios, and a community of athletes from everywhere.",
-            },
-          ].map((b) => (
-            <div
-              key={b.title}
-              className="border border-border bg-card/60 backdrop-blur-sm p-6 hover:border-accent/50 transition-colors"
-            >
-              <div className="text-[11px] tracking-[0.3em] uppercase text-accent font-semibold mb-3">
-                {b.tag}
-              </div>
-              <h3 className="font-display text-3xl tracking-wide">{b.title}</h3>
-              <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{b.text}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function PromoStrip() {
-  return (
-    <section className="relative bg-accent text-accent-foreground overflow-hidden">
-      <div className="absolute inset-0 opacity-30 mix-blend-overlay">
-        <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-black/40 to-transparent" />
-        <div className="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-black/40 to-transparent" />
-      </div>
-      <div className="relative container-x py-5 md:py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
-        <div className="flex items-center gap-4">
-          <Ticket className="shrink-0" size={22} />
-          <div>
-            <div className="text-[11px] tracking-[0.35em] uppercase opacity-80 font-semibold">
-              Limited Time
-            </div>
-            <div className="font-display text-xl md:text-2xl tracking-wide">
-              First Class Free · No Sign-Up Required
-            </div>
-          </div>
-        </div>
-        <Link
-          href="/contact"
-          className="group inline-flex items-center gap-3 bg-background text-foreground px-6 py-3 text-xs tracking-[0.25em] uppercase font-semibold hover:bg-foreground hover:text-background transition-colors"
-        >
-          Claim Your Spot
-          <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-        </Link>
-      </div>
-    </section>
-  );
-}
-
-function UpcomingEvents() {
-  const events = [
-    {
-      day: "TBA",
-      month: "2026",
-      tag: "Fight Night",
-      title: "The Contender · Pokhara",
-      desc: "Nepal's premier Muay Thai & MMA promotion returns to the lakeside.",
-      img: images.cageEvent,
-    },
-    {
-      day: "OPEN",
-      month: "Monthly",
-      tag: "Seminar",
-      title: "Champion Pad Work Clinic",
-      desc: "Two-hour intensive on power, timing, and ring IQ with the head coaching team.",
-      img: images.cageEventAlt,
-    },
-    {
-      day: "DROP-IN",
-      month: "Weekly",
-      tag: "Open Mat",
-      title: "Saturday Sparring",
-      desc: "Light-to-medium sparring open to intermediate and advanced students.",
+      Icon: Swords,
+      tag: "02",
+      title: "MMA",
+      desc: "Mixed martial arts — striking, grappling, transitions. Ring and cage ready.",
       img: images.mma,
     },
     {
-      day: "SUN",
-      month: "Quarterly",
-      tag: "Inter-Gym",
-      title: "Inter-Gym Smoker",
-      desc: "Friendly bouts with partner gyms across Nepal. Build the brotherhood.",
+      Icon: Activity,
+      tag: "03",
+      title: "Brazilian Jiu-Jitsu",
+      desc: "Ground game, leverage, submissions. Drilling for technique, rolling for instinct.",
       img: images.cageFighter,
     },
     {
-      day: "ALL",
-      month: "Year",
-      tag: "Retreat",
-      title: "Foreign Athlete Camp",
-      desc: "One-to-twelve week residencies for visiting fighters. Stay, train, recover.",
+      Icon: Footprints,
+      tag: "04",
+      title: "Wrestling",
+      desc: "Takedowns, control, scrambles. The foundation under every complete fighter.",
+      img: images.cageEvent,
+    },
+    {
+      Icon: Dumbbell,
+      tag: "05",
+      title: "Kickboxing",
+      desc: "Punches, kicks, footwork — pad rounds, bag work, sparring for every level.",
       img: images.gymInterior,
     },
     {
-      day: "KIDS",
-      month: "Monthly",
-      tag: "Showcase",
-      title: "Junior Showcase Day",
-      desc: "Our youngest athletes show what they've learned in front of family and coaches.",
-      img: images.trainingKick,
+      Icon: Trees,
+      tag: "06",
+      title: "Fitness · Indoor & Outdoor",
+      desc: "Strength, conditioning and mobility — designed for performance, health, growth.",
+      img: images.cageEventAlt,
     },
   ];
-  return (
-    <section className="py-20 md:py-32">
-      <div className="container-x">
-        <SectionHeader
-          eyebrow="What's On"
-          title={
-            <>
-              Upcoming <span className="text-accent">Events.</span>
-            </>
-          }
-          description="Fights, seminars, open mats, and showcases — every event the academy hosts, in one place."
-        />
-        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {events.map((e) => (
-            <article
-              key={e.title}
-              className="group relative border border-border bg-card overflow-hidden hover:border-accent/60 transition-colors"
-            >
-              <div className="relative aspect-[16/10] overflow-hidden">
-                <Image
-                  src={e.img}
-                  alt={e.title}
-                  fill
-                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
-                <div className="absolute top-4 left-4 bg-background/90 border border-border px-3 py-2 text-center">
-                  <div className="font-display text-2xl leading-none text-accent">{e.day}</div>
-                  <div className="text-[10px] tracking-[0.25em] uppercase text-muted-foreground mt-1">
-                    {e.month}
-                  </div>
-                </div>
-                <div className="absolute top-4 right-4 text-[10px] tracking-[0.3em] uppercase bg-accent text-accent-foreground px-3 py-1 font-semibold">
-                  {e.tag}
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="font-display text-2xl tracking-wide">{e.title}</h3>
-                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{e.desc}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
-function Retreats() {
-  const perks = [
-    {
-      Icon: Plane,
-      title: "Airport Pickup",
-      text: "We meet you in Kathmandu or Pokhara and handle the transfer.",
-    },
-    {
-      Icon: Bed,
-      title: "Stay & Train",
-      text: "On-site and partner accommodation walking distance to the gym.",
-    },
-    {
-      Icon: Mountain,
-      title: "Himalayan Recovery",
-      text: "Lakeside rest days, hikes, and yoga — train hard, recover harder.",
-    },
-    {
-      Icon: Sparkles,
-      title: "Sak Yant Ceremony",
-      text: "Optional traditional Sak Yant tattoo experience with a local master.",
-    },
-  ];
   return (
-    <section className="relative py-20 md:py-32 bg-card border-y border-border overflow-hidden">
-      <Image
-        src={images.gymInterior}
-        alt=""
-        fill
-        sizes="100vw"
-        className="absolute inset-0 w-full h-full object-cover opacity-10"
-      />
-      <div className="relative container-x grid lg:grid-cols-12 gap-12 items-start">
-        <div className="lg:col-span-5">
+    <section className="relative py-24 md:py-40 border-y border-accent/10 bg-card/30 overflow-hidden">
+      <div className="container-x">
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
           <SectionHeader
-            eyebrow="For Foreign Athletes"
+            eyebrow="Our Classes"
             title={
               <>
-                Train In The <span className="text-accent">Mountains.</span>
+                World-class training,
+                <br />
+                <span className="gold-gradient">modern studio atmosphere.</span>
               </>
             }
-            description="Pokhara is Nepal's most beautiful training ground — fight gym energy by day, lakeside calm by night. We host athletes from around the world for one-week to three-month residencies."
+            description="Led by experienced coaches and national & international achievers. Muay Thai, MMA — including BJJ, wrestling and kickboxing — alongside indoor and outdoor fitness programs tailored for performance, health, and personal growth."
           />
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link
-              href="/membership"
-              className="inline-flex items-center gap-3 bg-accent text-accent-foreground px-7 py-4 text-sm tracking-[0.2em] uppercase font-semibold hover:bg-accent/90"
-            >
-              Plan Your Retreat <ArrowRight size={16} />
-            </Link>
+          <Reveal delay={2}>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-3 border border-foreground/30 px-7 py-4 text-sm tracking-[0.2em] uppercase font-semibold hover:border-foreground hover:bg-foreground/5"
+              className="group inline-flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-accent hover:text-foreground transition-colors"
             >
-              Ask A Question
+              Try a Class
+              <ArrowUpRight size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             </Link>
-          </div>
+          </Reveal>
         </div>
-        <div className="lg:col-span-7 grid gap-px bg-border sm:grid-cols-2">
-          {perks.map(({ Icon, title, text }) => (
-            <div key={title} className="bg-background p-7">
-              <Icon className="text-accent mb-5" size={26} />
-              <h3 className="font-display text-xl tracking-wider">{title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{text}</p>
-            </div>
+
+        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {classes.map((c, i) => (
+            <Reveal key={c.title} delay={((i % 3) + 1) as 1 | 2 | 3}>
+              <article className="group relative overflow-hidden glass gold-glow h-full">
+                <div className="relative aspect-[5/6] overflow-hidden">
+                  <Image
+                    src={c.img}
+                    alt={c.title}
+                    fill
+                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-[1400ms] group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent/0 to-accent/0 group-hover:from-accent/10 transition-colors duration-700" />
+
+                  <div className="absolute top-5 left-5 text-[10px] tracking-[0.4em] uppercase text-accent/80">
+                    {c.tag}
+                  </div>
+                  <div className="absolute top-5 right-5 h-10 w-10 grid place-items-center border border-accent/30 text-accent group-hover:bg-accent group-hover:text-accent-foreground transition-colors duration-500">
+                    <c.Icon size={16} />
+                  </div>
+
+                  <div className="absolute bottom-0 inset-x-0 p-7">
+                    <h3 className="font-display text-2xl md:text-3xl tracking-wide">{c.title}</h3>
+                    <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                      {c.desc}
+                    </p>
+                    <div className="mt-5 flex items-center gap-2 text-[10px] tracking-[0.35em] uppercase text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      Join Class
+                      <ArrowUpRight size={12} />
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -962,162 +366,570 @@ function Retreats() {
   );
 }
 
-function Facilities() {
-  const tabs = [
+/* ────────────────────────────────────────────────────────────
+   UPCOMING EVENTS — Podcast + Contender Series 5
+   ──────────────────────────────────────────────────────────── */
+function UpcomingEvents() {
+  const events = [
     {
-      value: "training",
-      label: "Training Floor",
-      title: "Built For Combat.",
-      desc: "Full-size Muay Thai ring, MMA cage, heavy bag wall, and pad stations — all under one roof.",
-      img: images.gymInterior,
+      Icon: Mic,
+      tag: "Coming Soon",
+      title: "Beyond The Battles · Podcast",
+      desc: "Unseen. Unheard. Unspoken. The stories of fighters, coaches and dreamers building combat sport in Nepal.",
+      cta: "Listen In",
+      href: "/podcast",
+      img: images.podcastLogo,
     },
     {
-      value: "strength",
-      label: "Strength & Conditioning",
-      title: "Forge The Engine.",
-      desc: "Olympic platforms, free weights, and combat-specific conditioning gear to keep your gas tank deep.",
-      img: images.trainingKick,
-    },
-    {
-      value: "recovery",
-      label: "Recovery",
-      title: "Heal To Train Again.",
-      desc: "Stretching zone, ice baths, and physio support so you can put in the work tomorrow too.",
-      img: images.handWraps,
-    },
-    {
-      value: "stay",
-      label: "Stay",
-      title: "Rest Like A Pro.",
-      desc: "Clean, quiet rooms with mountain views minutes from the gym — designed for athletes, not tourists.",
-      img: images.cageFighter,
+      Icon: Trophy,
+      tag: "Headline Event",
+      title: "The Contender Series · 5",
+      desc: "Nepal's premier Muay Thai & MMA promotion returns to the lakeside for its fifth headline night.",
+      cta: "Reserve a Seat",
+      href: "/contender",
+      img: images.cageEvent,
     },
   ];
-  return (
-    <section className="py-20 md:py-32">
-      <div className="container-x">
-        <SectionHeader
-          eyebrow="Inside The Facility"
-          title="Tour The Gym."
-          description="Every space is built around the work — no fluff, no filler."
-        />
-        <Tabs defaultValue="training" className="mt-12">
-          <TabsList className="!h-auto flex flex-wrap justify-start gap-2 bg-transparent p-0 mb-8">
-            {tabs.map((t) => (
-              <TabsTrigger
-                key={t.value}
-                value={t.value}
-                className="!rounded-none border border-border bg-card px-5 py-3 text-[11px] tracking-[0.25em] uppercase font-semibold text-muted-foreground hover:text-foreground data-[state=active]:bg-accent data-[state=active]:text-accent-foreground data-[state=active]:!shadow-none data-[state=active]:border-accent"
-              >
-                {t.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          {tabs.map((t) => (
-            <TabsContent key={t.value} value={t.value} className="mt-0">
-              <div className="grid lg:grid-cols-5 gap-8 items-stretch">
-                <div className="relative lg:col-span-3 aspect-[16/10] lg:aspect-auto lg:min-h-[460px] overflow-hidden border border-border">
-                  <Image
-                    src={t.img}
-                    alt={t.label}
-                    fill
-                    sizes="(min-width: 1024px) 60vw, 100vw"
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-background/50 to-transparent" />
-                </div>
-                <div className="lg:col-span-2 bg-card border border-border p-8 md:p-10 flex flex-col justify-center">
-                  <div className="text-[11px] tracking-[0.3em] uppercase text-secondary font-semibold mb-4">
-                    {t.label}
-                  </div>
-                  <h3 className="font-display text-3xl md:text-4xl leading-[1]">{t.title}</h3>
-                  <p className="mt-5 text-muted-foreground leading-relaxed">{t.desc}</p>
-                </div>
-              </div>
-            </TabsContent>
-          ))}
-        </Tabs>
-      </div>
-    </section>
-  );
-}
 
-function Newsletter() {
-  return (
-    <section className="relative py-20 md:py-28 border-y border-border overflow-hidden grain">
-      <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-bronze/10" />
-      <div className="relative container-x grid md:grid-cols-2 gap-10 items-center">
-        <div>
-          <div className="flex items-center gap-3 mb-4">
-            <Mail size={16} className="text-accent" />
-            <span className="text-[11px] tracking-[0.3em] uppercase text-secondary font-semibold">
-              The Dispatch
-            </span>
-          </div>
-          <h2 className="font-display text-4xl md:text-6xl leading-[0.95]">
-            Get Fight Cards. <br />
-            <span className="text-accent">Skip The Noise.</span>
-          </h2>
-          <p className="mt-5 text-muted-foreground text-base md:text-lg max-w-md">
-            One email a month. Upcoming events, new programs, fighter stories, and member-only
-            offers. No spam.
-          </p>
-        </div>
-        <form
-          className="bg-card border border-border p-6 md:p-8 flex flex-col gap-4"
-          action="/api/newsletter"
-          method="post"
-        >
-          <label className="text-[11px] tracking-[0.3em] uppercase text-muted-foreground">
-            Your Email
-          </label>
-          <input
-            type="email"
-            name="email"
-            required
-            placeholder="warrior@example.com"
-            className="bg-background border border-border px-4 py-4 text-sm focus:outline-none focus:border-accent transition-colors"
-          />
-          <button
-            type="submit"
-            className="group inline-flex items-center justify-center gap-3 bg-accent text-accent-foreground px-7 py-4 text-xs tracking-[0.25em] uppercase font-semibold hover:bg-accent/90 transition-colors"
-          >
-            Sign Me Up
-            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-          </button>
-          <div className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-muted-foreground">
-            <Clock size={12} /> One email · Monthly · Unsubscribe anytime
-          </div>
-        </form>
-      </div>
-    </section>
-  );
-}
-
-function FinalCTA() {
   return (
     <section className="relative py-24 md:py-40 overflow-hidden">
-      <Image
-        src={images.cageFighter}
-        alt=""
-        fill
-        sizes="100vw"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-      <div className="absolute inset-0 bg-background/85" />
+      <div className="pointer-events-none absolute -right-32 -top-20">
+        <SealBackdrop spin="ccw" className="h-100 w-100 opacity-25" />
+      </div>
+
+      <div className="relative container-x">
+        <SectionHeader
+          eyebrow="What's Coming"
+          title={
+            <>
+              Upcoming
+              <br />
+              <span className="gold-gradient">events.</span>
+            </>
+          }
+          description="Two headline moments shaping the season ahead."
+        />
+
+        <div className="mt-16 grid gap-6 lg:grid-cols-2">
+          {events.map((e, i) => (
+            <Reveal key={e.title} delay={((i % 2) + 1) as 1 | 2}>
+              <article className="group relative glass gold-glow overflow-hidden h-full">
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <Image
+                    src={e.img}
+                    alt={e.title}
+                    fill
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-[1400ms] group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 cinema-overlay" />
+                  <div className="absolute top-5 left-5 text-[10px] tracking-[0.4em] uppercase text-accent-foreground bg-accent px-3 py-1.5 font-semibold">
+                    {e.tag}
+                  </div>
+                  <div className="absolute top-5 right-5 h-12 w-12 grid place-items-center bg-background/60 backdrop-blur-md border border-accent/30 text-accent">
+                    <e.Icon size={18} />
+                  </div>
+                </div>
+
+                <div className="p-7 md:p-9">
+                  <h3 className="font-display text-3xl md:text-4xl tracking-wide leading-[0.95]">
+                    {e.title}
+                  </h3>
+                  <p className="mt-4 text-muted-foreground leading-relaxed">{e.desc}</p>
+                  <Link
+                    href={e.href}
+                    className="mt-6 inline-flex items-center gap-2 text-[11px] tracking-[0.35em] uppercase text-accent hover:text-foreground transition-colors group/cta"
+                  >
+                    {e.cta}
+                    <ArrowUpRight
+                      size={14}
+                      className="transition-transform group-hover/cta:translate-x-1 group-hover/cta:-translate-y-1"
+                    />
+                  </Link>
+                </div>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   SAK YANT SYMBOLISM
+   ──────────────────────────────────────────────────────────── */
+function SakYantSymbolism() {
+  const symbols = [
+    {
+      glyph: "ห้าแถว",
+      title: "Hā Thaew",
+      meaning: "Five Sacred Lines",
+      text: "Protection from misfortune. Five mantras inked across the body — five blessings carried for life.",
+    },
+    {
+      glyph: "เก้ายอด",
+      title: "Gao Yord",
+      meaning: "Nine Spires",
+      text: "Nine peaks rising — strength, fortune, charisma, success. The yantra of the most sacred mountain.",
+    },
+    {
+      glyph: "หนุมาน",
+      title: "Hanuman",
+      meaning: "Warrior Devotion",
+      text: "Courage in battle. Loyalty without limit. The sacred image worn by fighters and the fearless.",
+    },
+  ];
+
+  return (
+    <section
+      id="sak-yant"
+      className="relative py-24 md:py-44 overflow-hidden bg-gradient-to-b from-background via-card/40 to-background"
+    >
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -left-24 top-10">
+          <SealBackdrop spin="cw" className="h-[480px] w-[480px] opacity-25" />
+        </div>
+        <div className="absolute -right-24 bottom-10">
+          <SealBackdrop spin="ccw" className="h-100 w-100 opacity-20" />
+        </div>
+      </div>
+
+      <div className="pointer-events-none absolute inset-0">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <span
+            key={i}
+            className="absolute h-1 w-1 bg-accent/60 rounded-full float-slow"
+            style={{
+              top: `${(i * 73) % 90 + 5}%`,
+              left: `${(i * 41) % 92 + 4}%`,
+              animationDelay: `${i * 0.6}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="relative container-x">
+        <div className="text-center max-w-3xl mx-auto">
+          <Reveal>
+            <div className="ornament-line mb-6 justify-center inline-flex">Sacred Symbolism</div>
+          </Reveal>
+          <Reveal delay={1}>
+            <h2 className="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.92] text-balance">
+              The geometry
+              <br />
+              <span className="gold-gradient">of the spirit.</span>
+            </h2>
+          </Reveal>
+          <Reveal delay={2}>
+            <p className="mt-8 text-base md:text-lg text-muted-foreground leading-relaxed">
+              Every yantra is a circuit of mantra and meaning — drawn by hand, blessed by lineage,
+              chosen for who you are becoming. The body becomes the temple.
+            </p>
+          </Reveal>
+        </div>
+
+        <Reveal variant="fade">
+          <div className="mt-20 grid place-items-center">
+            <div className="relative h-[min(70vmin,540px)] w-[min(70vmin,540px)] grid place-items-center">
+              <SealBackdrop
+                spin="cw"
+                className="absolute inset-0 h-full w-full opacity-90 pulse-glow"
+              />
+              <div className="relative font-serif text-3xl md:text-4xl text-accent text-center leading-tight">
+                สักยันต์
+                <div className="font-display text-xs tracking-[0.5em] mt-3 text-mist/80">
+                  SAK YANT
+                </div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
+        <div className="mt-24 grid gap-6 md:grid-cols-3">
+          {symbols.map((s, i) => (
+            <Reveal key={s.title} delay={((i % 3) + 1) as 1 | 2 | 3}>
+              <article className="relative glass p-8 md:p-10 h-full gold-glow group">
+                <div className="font-serif text-3xl md:text-4xl text-accent mb-6">
+                  {s.glyph}
+                </div>
+                <div className="text-[10px] tracking-[0.4em] uppercase text-accent/80 mb-3">
+                  {s.meaning}
+                </div>
+                <h3 className="font-display text-2xl md:text-3xl tracking-wide">{s.title}</h3>
+                <p className="mt-4 text-sm text-muted-foreground leading-relaxed">{s.text}</p>
+                <div className="mt-8 h-px gold-line opacity-30 group-hover:opacity-100 transition-opacity duration-700" />
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   CINEMATIC GALLERY
+   ──────────────────────────────────────────────────────────── */
+function CinematicGallery() {
+  const imgs = [
+    { src: images.gymInterior, span: "row-span-2", label: "The Floor" },
+    { src: images.handWraps, span: "", label: "The Mark" },
+    { src: images.cageEvent, span: "", label: "The Stage" },
+    { src: images.trainingKick, span: "", label: "The Strike" },
+    { src: images.cageFighter, span: "row-span-2", label: "The Warrior" },
+    { src: images.cageEventAlt, span: "", label: "The Ritual" },
+    { src: images.mma, span: "", label: "The Crucible" },
+    { src: images.champion, span: "", label: "The Champion" },
+  ];
+
+  return (
+    <section className="py-24 md:py-40 grain">
+      <div className="container-x">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+          <SectionHeader
+            eyebrow="The Sanctuary"
+            title={
+              <>
+                Frames from a
+                <br />
+                <span className="gold-gradient">sacred life.</span>
+              </>
+            }
+          />
+          <Reveal delay={2}>
+            <Link
+              href="/gallery"
+              className="group inline-flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-accent hover:text-foreground transition-colors"
+            >
+              Full Gallery
+              <ArrowUpRight size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </Link>
+          </Reveal>
+        </div>
+      </div>
+
+      <div className="mt-16 container-x">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 auto-rows-[220px] md:auto-rows-[260px]">
+          {imgs.map((img, i) => (
+            <Reveal
+              key={i}
+              variant="fade"
+              delay={((i % 4) + 1) as 1 | 2 | 3 | 4}
+              className={`relative overflow-hidden group cursor-pointer hairline ${img.span}`}
+            >
+              <Image
+                src={img.src}
+                alt={img.label}
+                fill
+                sizes="(min-width: 768px) 25vw, 50vw"
+                className="object-cover transition-transform duration-[1400ms] group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent" />
+              <div className="absolute inset-0 bg-accent/0 group-hover:bg-accent/15 transition-colors duration-500" />
+              <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between">
+                <span className="font-display tracking-[0.3em] text-sm uppercase translate-y-3 opacity-70 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                  {img.label}
+                </span>
+                <ArrowUpRight
+                  size={16}
+                  className="text-accent translate-x-3 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500"
+                />
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   FIGHT STORE TEASER — Summer Tank Top NPR 1,000
+   ──────────────────────────────────────────────────────────── */
+function FightStoreTeaser() {
+  return (
+    <section className="relative py-24 md:py-40 border-y border-accent/10 bg-card/30 overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 grid place-items-center">
+        <SealBackdrop spin="ccw" className="h-[55vmin] w-[55vmin] opacity-20" />
+      </div>
+
+      <div className="relative container-x grid lg:grid-cols-12 gap-16 items-center">
+        <div className="lg:col-span-5">
+          <SectionHeader
+            eyebrow="Fight Store"
+            title={
+              <>
+                Wear the
+                <br />
+                <span className="gold-gradient">colours.</span>
+              </>
+            }
+            description="A small drop of fight-grade gear, made for the studio and worn beyond it. Limited runs, premium fabric, no filler."
+          />
+          <Reveal delay={3}>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Link
+                href="/fight-store"
+                className="group inline-flex items-center gap-3 bg-accent text-accent-foreground px-8 py-4 text-[11px] tracking-[0.35em] uppercase font-semibold hover:bg-foreground transition-colors duration-500"
+              >
+                Visit Store
+                <ArrowUpRight size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              </Link>
+              <a
+                href={SITE.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 border border-accent/40 hover:border-accent text-foreground px-8 py-4 text-[11px] tracking-[0.35em] uppercase font-semibold transition-all duration-500"
+              >
+                <MessageCircle size={14} className="text-accent" />
+                Order via WhatsApp
+              </a>
+            </div>
+          </Reveal>
+        </div>
+
+        <Reveal delay={1} className="lg:col-span-7">
+          <article className="group relative glass gold-glow overflow-hidden">
+            <div className="grid md:grid-cols-2">
+              <div className="relative aspect-square md:aspect-auto md:min-h-[480px] overflow-hidden">
+                <Image
+                  src={images.fightStore ?? images.heroFighter}
+                  alt="Summer Tank Top — Sak Yant Muay Thai Nepal"
+                  fill
+                  sizes="(min-width: 1024px) 30vw, 100vw"
+                  className="object-cover transition-transform duration-[1400ms] group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-background/10 to-transparent md:bg-gradient-to-l" />
+                <div className="absolute top-5 left-5 text-[10px] tracking-[0.4em] uppercase text-accent-foreground bg-accent px-3 py-1.5 font-semibold">
+                  New Drop
+                </div>
+              </div>
+
+              <div className="p-8 md:p-12 flex flex-col justify-between">
+                <div>
+                  <div className="ornament-line mb-5">Summer Edition</div>
+                  <h3 className="font-display text-4xl md:text-5xl leading-[0.95]">
+                    Summer Tank Top
+                  </h3>
+                  <p className="mt-5 text-muted-foreground leading-relaxed">
+                    Breathable cotton. Sacred geometry chest print. Cut for sparring,
+                    pad rounds, and lakeside walks afterward.
+                  </p>
+
+                  <ul className="mt-6 grid grid-cols-2 gap-y-2 gap-x-4 text-sm">
+                    {[
+                      "100% cotton",
+                      "Studio-tested fit",
+                      "Limited run",
+                      "Unisex sizing",
+                    ].map((f) => (
+                      <li key={f} className="flex items-center gap-2 text-foreground/85">
+                        <span className="h-1 w-1 bg-accent rounded-full" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="mt-10 flex flex-wrap items-end justify-between gap-6 border-t border-accent/15 pt-6">
+                  <div>
+                    <div className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground">
+                      Price
+                    </div>
+                    <div className="mt-2 font-display text-5xl gold-gradient leading-none">
+                      NPR 1,000
+                    </div>
+                  </div>
+                  <Link
+                    href="/fight-store"
+                    className="inline-flex items-center gap-2 text-[11px] tracking-[0.35em] uppercase text-accent hover:text-foreground transition-colors"
+                  >
+                    <ShoppingBag size={14} />
+                    View Details
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </article>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   PHILOSOPHY
+   ──────────────────────────────────────────────────────────── */
+function Philosophy() {
+  return (
+    <section className="relative h-[80vh] min-h-[560px] overflow-hidden">
+      <div className="absolute inset-0 ken-burns">
+        <Image
+          src={images.handWraps}
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover"
+        />
+      </div>
+      <div className="absolute inset-0 smoke-overlay" />
+      <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent" />
+      <div className="absolute inset-0 vignette" />
+
+      <div className="relative container-x h-full flex items-center">
+        <div className="max-w-2xl">
+          <Reveal>
+            <div className="ornament-line mb-6">The Philosophy</div>
+          </Reveal>
+          <Reveal delay={1}>
+            <h2 className="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.9] text-balance">
+              Discipline is the
+              <br />
+              <span className="gold-gradient">only shortcut.</span>
+            </h2>
+          </Reveal>
+          <Reveal delay={2}>
+            <p className="mt-8 text-mist/85 text-base md:text-lg leading-relaxed max-w-xl">
+              No quick fixes. No marketing lines. Early mornings, bruised shins, long
+              sessions, and the quiet pride of becoming the strongest version of yourself.
+            </p>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   TESTIMONIALS
+   ──────────────────────────────────────────────────────────── */
+function Testimonials() {
+  const quotes = [
+    {
+      q: "Trained here for three months. The coaching is real, the energy is sacred, and Pokhara is the most beautiful place I've ever taught my body to fight in.",
+      a: "Jake M.",
+      r: "Visiting Athlete · Australia",
+    },
+    {
+      q: "Muay Thai, BJJ, kickboxing — all under one roof, all coached at a level I didn't expect to find in Nepal. The community made it home.",
+      a: "Aarti S.",
+      r: "Amateur Fighter · India",
+    },
+    {
+      q: "World-class striking, honest grappling, and lakeside recovery between sessions. The Contender nights are the cherry on top.",
+      a: "Luca R.",
+      r: "Pro Fighter · Italy",
+    },
+  ];
+
+  return (
+    <section className="relative py-24 md:py-40 border-y border-accent/10 bg-card/30 overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 grid place-items-center">
+        <SealBackdrop spin="ccw" className="h-[55vmin] w-[55vmin] opacity-20" />
+      </div>
+
+      <div className="relative container-x">
+        <SectionHeader
+          eyebrow="Voices From The Sanctuary"
+          title={
+            <>
+              What the warriors
+              <br />
+              <span className="gold-gradient">carry home.</span>
+            </>
+          }
+          align="center"
+        />
+
+        <div className="mt-20 grid gap-6 md:grid-cols-3">
+          {quotes.map((q, i) => (
+            <Reveal key={q.a} delay={((i % 3) + 1) as 1 | 2 | 3}>
+              <figure className="relative glass p-9 md:p-10 h-full gold-glow">
+                <Quote
+                  className="absolute -top-4 left-8 text-accent bg-background px-2"
+                  size={32}
+                />
+                <blockquote className="text-foreground/90 leading-[1.85] text-[15px]">
+                  {q.q}
+                </blockquote>
+                <figcaption className="mt-8 pt-6 border-t border-accent/15">
+                  <div className="font-display tracking-[0.2em] text-lg">{q.a}</div>
+                  <div className="text-[10px] text-accent/80 tracking-[0.35em] uppercase mt-1">
+                    {q.r}
+                  </div>
+                </figcaption>
+              </figure>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   FINAL INVOCATION
+   ──────────────────────────────────────────────────────────── */
+function FinalInvocation() {
+  return (
+    <section className="relative py-32 md:py-48 overflow-hidden">
+      <div className="absolute inset-0 ken-burns">
+        <Image
+          src={images.cageFighter}
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover opacity-60"
+        />
+      </div>
+      <div className="absolute inset-0 smoke-overlay" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(10,10,10,0.4),_rgba(10,10,10,0.96))]" />
+
+      <div className="pointer-events-none absolute inset-0 grid place-items-center">
+        <SealBackdrop
+          spin="cw"
+          className="h-[min(55vmin,460px)] w-[min(55vmin,460px)] opacity-25 pulse-glow"
+        />
+      </div>
+
       <div className="relative container-x text-center">
-        <h2 className="font-display text-5xl md:text-8xl leading-[0.9]">
-          Step Into <span className="text-accent">The Ring.</span>
-        </h2>
-        <p className="mt-6 max-w-xl mx-auto text-muted-foreground text-lg">
-          Your first class is the hardest. Take it.
-        </p>
-        <Link
-          href="/membership"
-          className="mt-10 inline-flex items-center gap-3 bg-accent text-accent-foreground px-9 py-5 text-sm tracking-[0.25em] uppercase font-semibold hover:bg-accent/90"
-        >
-          Become A Member <ArrowRight size={16} />
-        </Link>
+        <Reveal>
+          <div className="ornament-line mb-8 justify-center inline-flex">{SITE.location}</div>
+        </Reveal>
+        <Reveal delay={1}>
+          <h2 className="font-display text-6xl md:text-8xl lg:text-9xl leading-[0.88] text-balance">
+            Step onto
+            <br />
+            <span className="gold-gradient">the mat.</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={2}>
+          <p className="mt-8 max-w-xl mx-auto text-mist/85 text-base md:text-lg leading-relaxed">
+            Your first round is the hardest. After that — only the studio, the strike, and
+            the version of yourself you came here to find.
+          </p>
+        </Reveal>
+        <Reveal delay={3}>
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/contact"
+              className="group inline-flex items-center gap-3 bg-accent text-accent-foreground px-10 py-5 text-[11px] tracking-[0.4em] uppercase font-semibold hover:bg-foreground transition-colors duration-500"
+            >
+              Book Now
+              <ArrowUpRight size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </Link>
+            <a
+              href={SITE.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 glass text-foreground hover:border-accent px-10 py-5 text-[11px] tracking-[0.4em] uppercase font-semibold transition-all duration-500"
+            >
+              <MessageCircle size={14} className="text-accent" />
+              WhatsApp
+            </a>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

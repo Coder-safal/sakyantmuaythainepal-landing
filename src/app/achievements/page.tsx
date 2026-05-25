@@ -85,7 +85,7 @@ export default async function AchievementsPage() {
                       {r.weight}
                     </div>
                   </div>
-                  <div className="font-display text-2xl text-secondary">{r.year}</div>
+                  <div className="font-display text-2xl text-accent">{r.year}</div>
                 </li>
               ))}
             </ul>
