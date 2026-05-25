@@ -9,7 +9,7 @@ interface Props {
 
 export function PageHero({ eyebrow, title, subtitle, image }: Props) {
   return (
-    <section className="relative h-[60vh] min-h-[420px] flex items-end overflow-hidden">
+    <section className="relative -mt-16 md:-mt-20 h-[60vh] min-h-[420px] flex items-end overflow-hidden">
       <Image
         src={image}
         alt=""

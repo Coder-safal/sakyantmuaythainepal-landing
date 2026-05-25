@@ -13,7 +13,7 @@ import { fetchPlans, fetchSectionData, fetchSiteConfig, type PublicPlan } from "
 export const metadata: Metadata = {
   title: "Membership & Training",
   description:
-    "Membership and training plans for Muay Thai, MMA, BJJ, wrestling, kickboxing and fitness in Pokhara, Nepal.",
+    "Membership and training plans for Muay Thai, MMA, kickboxing and fitness in Pokhara, Nepal.",
   alternates: { canonical: "/membership" },
   openGraph: {
     title: "Membership — Sak Yant Muay Thai Nepal",

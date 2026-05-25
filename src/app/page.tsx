@@ -7,8 +7,6 @@ import {
   Flame,
   Swords,
   Dumbbell,
-  Footprints,
-  Activity,
   Trees,
   MessageCircle,
   Mic,
@@ -27,7 +25,7 @@ import { images } from "@/lib/images";
 export const metadata: Metadata = {
   title: "Sak Yant Muay Thai Nepal — Muay Thai · MMA · Fitness in Pokhara",
   description:
-    "World-class Muay Thai, MMA (BJJ, wrestling, kickboxing) and fitness training in the heart of Lakeside, Pokhara. For first-timers and professionals.",
+    "World-class Muay Thai, MMA, kickboxing and fitness training in the heart of Lakeside, Pokhara. For first-timers and professionals.",
   alternates: { canonical: "/" },
   openGraph: {
     title: "Sak Yant Muay Thai Nepal",
@@ -43,14 +41,14 @@ const SCHEMA = {
   "@type": "SportsActivityLocation",
   name: "Sak Yant Muay Thai Nepal",
   description:
-    "Muay Thai, MMA (BJJ, wrestling, kickboxing) and fitness training in Lakeside, Pokhara, Nepal.",
+    "Muay Thai, MMA, kickboxing and fitness training in Lakeside, Pokhara, Nepal.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Pokhara",
     addressRegion: "Lakeside",
     addressCountry: "NP",
   },
-  sport: ["Muay Thai", "Mixed Martial Arts", "Brazilian Jiu-Jitsu", "Kickboxing", "Wrestling", "Fitness"],
+  sport: ["Muay Thai", "Mixed Martial Arts", "Kickboxing", "Fitness"],
 };
 
 export default function HomePage() {
@@ -80,7 +78,7 @@ export default function HomePage() {
    ──────────────────────────────────────────────────────────── */
 function Hero() {
   return (
-    <section className="relative -mt-18 md:-mt-22 h-[100svh] min-h-[720px] overflow-hidden grain">
+    <section className="relative -mt-16 md:-mt-20 h-[100svh] min-h-[720px] overflow-hidden grain">
       <div className="absolute inset-0 ken-burns">
         <Image
           src={images.heroFighter}
@@ -142,8 +140,6 @@ function Hero() {
 const MARQUEE_ITEMS = [
   "MUAY THAI",
   "MMA",
-  "BJJ",
-  "WRESTLING",
   "KICKBOXING",
   "FITNESS",
   "LAKESIDE · POKHARA",
@@ -193,7 +189,7 @@ function About() {
               <div className="absolute inset-0 smoke-overlay-light" />
               <div className="absolute inset-0 vignette" />
             </div>
-            <div className="absolute top-6 left-6 text-[10px] tracking-[0.4em] uppercase text-accent/90 bg-background/60 backdrop-blur-md px-4 py-2 border border-accent/20">
+            <div className="absolute top-6 left-6 text-[10px] tracking-[0.4em] uppercase text-accent/90 bg-background/80 px-4 py-2 border border-accent/20">
               Sacred · Discipline
             </div>
           </div>
@@ -228,7 +224,7 @@ function About() {
           <Reveal delay={3}>
             <div className="mt-12 grid grid-cols-3 gap-px bg-accent/10">
               {[
-                { value: "6", label: "Disciplines" },
+                { value: "4", label: "Disciplines" },
                 { value: "108", label: "Sacred Mantras" },
                 { value: "∞", label: "Inner Stillness" },
               ].map((s) => (
@@ -269,29 +265,15 @@ function OurClasses() {
       img: images.mma,
     },
     {
-      Icon: Activity,
-      tag: "03",
-      title: "Brazilian Jiu-Jitsu",
-      desc: "Ground game, leverage, submissions. Drilling for technique, rolling for instinct.",
-      img: images.cageFighter,
-    },
-    {
-      Icon: Footprints,
-      tag: "04",
-      title: "Wrestling",
-      desc: "Takedowns, control, scrambles. The foundation under every complete fighter.",
-      img: images.cageEvent,
-    },
-    {
       Icon: Dumbbell,
-      tag: "05",
+      tag: "03",
       title: "Kickboxing",
       desc: "Punches, kicks, footwork — pad rounds, bag work, sparring for every level.",
       img: images.gymInterior,
     },
     {
       Icon: Trees,
-      tag: "06",
+      tag: "04",
       title: "Fitness · Indoor & Outdoor",
       desc: "Strength, conditioning and mobility — designed for performance, health, growth.",
       img: images.cageEventAlt,
@@ -311,7 +293,7 @@ function OurClasses() {
                 <span className="gold-gradient">modern studio atmosphere.</span>
               </>
             }
-            description="Led by experienced coaches and national & international achievers. Muay Thai, MMA — including BJJ, wrestling and kickboxing — alongside indoor and outdoor fitness programs tailored for performance, health, and personal growth."
+            description="Led by experienced coaches and national & international achievers. Muay Thai, MMA and kickboxing — alongside indoor and outdoor fitness programs tailored for performance, health, and personal growth."
           />
           <Reveal delay={2}>
             <Link
@@ -426,7 +408,7 @@ function UpcomingEvents() {
                   <div className="absolute top-5 left-5 text-[10px] tracking-[0.4em] uppercase text-accent-foreground bg-accent px-3 py-1.5 font-semibold">
                     {e.tag}
                   </div>
-                  <div className="absolute top-5 right-5 h-12 w-12 grid place-items-center bg-background/60 backdrop-blur-md border border-accent/30 text-accent">
+                  <div className="absolute top-5 right-5 h-12 w-12 grid place-items-center bg-background/80 border border-accent/30 text-accent">
                     <e.Icon size={18} />
                   </div>
                 </div>
@@ -812,7 +794,7 @@ function Testimonials() {
       r: "Visiting Athlete · Australia",
     },
     {
-      q: "Muay Thai, BJJ, kickboxing — all under one roof, all coached at a level I didn't expect to find in Nepal. The community made it home.",
+      q: "Muay Thai, MMA, kickboxing — all under one roof, all coached at a level I didn't expect to find in Nepal. The community made it home.",
       a: "Aarti S.",
       r: "Amateur Fighter · India",
     },

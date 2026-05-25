@@ -47,7 +47,7 @@ export async function DynamicHero({ section, fallback }: Props) {
     align === "center" ? "items-end justify-center text-center" : align === "right" ? "items-end justify-end text-right" : "items-end justify-start";
 
   return (
-    <section className="relative h-[60vh] min-h-[420px] flex overflow-hidden">
+    <section className="relative -mt-16 md:-mt-20 h-[60vh] min-h-[420px] flex overflow-hidden">
       <Image
         src={image}
         alt={imageAlt}
