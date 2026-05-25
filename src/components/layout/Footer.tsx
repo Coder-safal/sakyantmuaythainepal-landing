@@ -1,34 +1,31 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Instagram, Facebook, Youtube, MapPin, Phone, Mail } from "lucide-react";
-import { NAV } from "@/lib/site";
-import { images } from "@/lib/images";
-import type { SiteConfig } from "@/lib/api";
-import { fetchSectionData } from "@/lib/api";
+import { NAV, SITE } from "@/lib/site";
+import { YantraMark } from "@/components/ui/YantraMark";
 
-interface FooterContent {
-  description: string;
-  motto: string;
-}
+const FOOTER_COPY = {
+  description:
+    "Sak Yant Muay Thai Nepal is a fight school in Pokhara built for serious athletes — Nepali and international. Home of The Contender Fight Series and a community of fighters, coaches, and dreamers under the Himalayas.",
+  motto: "FIGHT · TRAIN · BELONG",
+};
 
-export async function Footer({ site }: { site: SiteConfig }) {
-  const footer = await fetchSectionData<FooterContent>("footer", { description: "", motto: "" });
+export function Footer({ site }: { site: typeof SITE }) {
   return (
     <footer className="relative border-t border-border bg-background">
       <div className="blood-divider" />
       <div className="container-x py-16 grid gap-10 md:grid-cols-4">
         <div className="md:col-span-2">
           <div className="flex items-center gap-3">
-            <Image src={images.logo} alt="" width={56} height={56} className="h-14 w-14" />
+            <YantraMark className="h-12 w-12 text-accent" />
             <div>
-              <div className="font-display text-lg tracking-wider">{site.short}</div>
-              <div className="text-xs text-muted-foreground tracking-[0.25em]">
+              <div className="font-display text-lg tracking-[0.25em]">{site.short}</div>
+              <div className="text-xs text-muted-foreground tracking-[0.3em]">
                 MUAY THAI · NEPAL
               </div>
             </div>
           </div>
           <p className="mt-5 max-w-md text-sm text-muted-foreground leading-relaxed">
-            {footer.description}
+            {FOOTER_COPY.description}
           </p>
           <div className="flex gap-3 mt-6">
             {[
@@ -88,7 +85,7 @@ export async function Footer({ site }: { site: SiteConfig }) {
           <p>
             © {new Date().getFullYear()} {site.name}. All rights reserved.
           </p>
-          <p className="tracking-[0.2em]">{footer.motto}</p>
+          <p className="tracking-[0.2em]">{FOOTER_COPY.motto}</p>
         </div>
       </div>
     </footer>

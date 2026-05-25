@@ -1,18 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { NAV } from "@/lib/site";
-import { images } from "@/lib/images";
-import type { SiteConfig } from "@/lib/api";
+import { YantraMark } from "@/components/ui/YantraMark";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3000/api/v1";
-const GOOGLE_LOGIN_URL = `${API_BASE}/auth/google`;
-
-export function Navbar({ site }: { site: Pick<SiteConfig, "whatsapp"> }) {
+export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -38,30 +33,23 @@ export function Navbar({ site }: { site: Pick<SiteConfig, "whatsapp"> }) {
     >
       <div className="container-x flex items-center justify-between h-16 md:h-20">
         <Link href="/" className="flex items-center gap-3 group">
-          <Image
-            src={images.logo}
-            alt="Sak Yant Muay Thai Nepal"
-            width={48}
-            height={48}
-            priority
-            className="h-10 w-10 md:h-12 md:w-12 object-contain transition-transform group-hover:scale-105"
-          />
-          <div className="hidden sm:flex flex-col leading-none">
-            <span className="font-display text-sm md:text-base tracking-wider">SAK YANT</span>
-            <span className="text-[10px] md:text-[11px] text-muted-foreground tracking-[0.2em]">
+          <YantraMark className="h-9 w-9 md:h-10 md:w-10 text-accent transition-transform group-hover:rotate-45" />
+          <div className="flex flex-col leading-none">
+            <span className="font-display text-sm md:text-base tracking-[0.25em]">SAK YANT</span>
+            <span className="text-[10px] md:text-[11px] text-muted-foreground tracking-[0.3em]">
               MUAY THAI · NEPAL
             </span>
           </div>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-7">
+        <nav className="hidden lg:flex items-center gap-8">
           {NAV.map((item) => {
             const active = pathname === item.to;
             return (
               <Link
                 key={item.to}
                 href={item.to}
-                className={`relative text-[13px] tracking-[0.15em] uppercase font-medium transition-colors ${
+                className={`relative text-[13px] tracking-[0.2em] uppercase font-medium transition-colors ${
                   active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                 }`}
               >
@@ -73,23 +61,6 @@ export function Navbar({ site }: { site: Pick<SiteConfig, "whatsapp"> }) {
             );
           })}
         </nav>
-
-        <div className="hidden lg:flex items-center gap-4">
-          <a
-            href={GOOGLE_LOGIN_URL}
-            className="text-[13px] tracking-[0.15em] uppercase font-medium text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Sign In
-          </a>
-          <a
-            href={site.whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center bg-accent text-accent-foreground pl-5 pr-[calc(1.25rem-0.2em)] py-2.5 text-xs tracking-[0.2em] uppercase font-semibold hover:bg-accent/90 transition-colors"
-          >
-            Join Now
-          </a>
-        </div>
 
         <button
           aria-label="Toggle menu"
@@ -107,25 +78,11 @@ export function Navbar({ site }: { site: Pick<SiteConfig, "whatsapp"> }) {
               <Link
                 key={item.to}
                 href={item.to}
-                className="py-3 text-sm tracking-[0.15em] uppercase border-b border-border/40 text-foreground/90 hover:text-accent"
+                className="py-3 text-sm tracking-[0.2em] uppercase border-b border-border/40 text-foreground/90 hover:text-accent"
               >
                 {item.label}
               </Link>
             ))}
-            <a
-              href={GOOGLE_LOGIN_URL}
-              className="mt-4 py-3 text-center text-sm tracking-[0.15em] uppercase border border-border text-foreground/90 hover:text-accent"
-            >
-              Sign In with Google
-            </a>
-            <a
-              href={site.whatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-2 inline-flex justify-center bg-accent text-accent-foreground py-3 pl-[0.25em] pr-0 text-xs tracking-[0.25em] uppercase font-semibold"
-            >
-              Join Now
-            </a>
           </div>
         </div>
       )}
