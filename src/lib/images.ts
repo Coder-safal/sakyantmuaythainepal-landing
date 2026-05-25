@@ -5,6 +5,7 @@ export const images = {
   trainingKick: "/photos/mayuthai.png",
   cageEvent: "/photos/upcomming-events.png",
   cageEventAlt: "/photos/upcomming-events-1.png",
+  cageEventThird: "/photos/upcomming-events-2.png",
   cageFighter: "/photos/mma.png",
   mma: "/photos/mma.png",
   champion: "/photos/achivements.png",

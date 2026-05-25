@@ -138,11 +138,12 @@ function Hero() {
    SACRED MARQUEE
    ──────────────────────────────────────────────────────────── */
 const MARQUEE_ITEMS = [
-  "MUAY THAI",
   "MMA",
-  "KICKBOXING",
+  "MUAY THAI",
   "FITNESS",
+  "KID BOXING",
   "LAKESIDE · POKHARA",
+  "HEART OF POKHARA",
 ];
 
 function SacredMarquee() {
@@ -360,7 +361,7 @@ function UpcomingEvents() {
       desc: "Unseen. Unheard. Unspoken. The stories of fighters, coaches and dreamers building combat sport in Nepal.",
       cta: "Listen In",
       href: "/podcast",
-      img: images.podcastLogo,
+      img: images.cageEvent,
     },
     {
       Icon: Trophy,
@@ -369,7 +370,16 @@ function UpcomingEvents() {
       desc: "Nepal's premier Muay Thai & MMA promotion returns to the lakeside for its fifth headline night.",
       cta: "Reserve a Seat",
       href: "/contender",
-      img: images.cageEvent,
+      img: images.cageEventAlt,
+    },
+    {
+      Icon: Flame,
+      tag: "Fight Camp",
+      title: "Lakeside Fight Camp",
+      desc: "An intensive multi-week camp by the lake — sparring, conditioning and tradition under one roof.",
+      cta: "Join the Camp",
+      href: "/contact",
+      img: images.cageEventThird,
     },
   ];
 
@@ -392,7 +402,7 @@ function UpcomingEvents() {
           description="Two headline moments shaping the season ahead."
         />
 
-        <div className="mt-16 grid gap-6 lg:grid-cols-2">
+        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {events.map((e, i) => (
             <Reveal key={e.title} delay={((i % 2) + 1) as 1 | 2}>
               <article className="group relative glass gold-glow overflow-hidden h-full">
