@@ -19,4 +19,5 @@ export const images = {
   fitness: "/photos/fitness.png",
   kidsMuayThai: "/photos/kids-muaythai.png",
   sakYantSeal: "/photos/logo-sakyant-bg.png",
+  teamLogo: "/images/logo.png",
 } as const;

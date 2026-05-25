@@ -52,11 +52,11 @@ export function Footer({ site }: { site: typeof SITE }) {
         <div className="md:col-span-5">
           <div className="flex items-center gap-4">
             <Image
-              src={images.sakYantSeal}
-              alt="Sak Yant Muay Thai Nepal"
+              src={images.teamLogo}
+              alt="Sak Yant Muay Thai Nepal — Fight Team"
               width={56}
               height={56}
-              className="h-14 w-14 object-contain seal-watermark"
+              className="h-14 w-14 object-contain"
             />
             <div>
               <div className="font-display text-xl tracking-[0.3em]">{site.short}</div>

@@ -40,11 +40,11 @@ export function Navbar() {
           aria-label="Sak Yant Muay Thai Nepal — Home"
         >
           <Image
-            src={images.sakYantSeal}
-            alt=""
+            src={images.teamLogo}
+            alt="Sak Yant Muay Thai Nepal — Fight Team"
             width={56}
             height={56}
-            className="h-9 w-9 md:h-10 md:w-10 object-contain seal-watermark transition-transform duration-500 group-hover:rotate-12"
+            className="h-9 w-9 md:h-10 md:w-10 object-contain transition-transform duration-500 group-hover:rotate-12"
           />
           <div className="flex flex-col leading-tight">
             <span className="font-display text-sm md:text-base tracking-[0.22em] text-foreground">
