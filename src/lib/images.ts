@@ -1,5 +1,5 @@
 export const images = {
-  heroFighter: "/photos/mayuthai.png",
+  heroFighter: "/photos/cover-image-prior.png",
   gymInterior: "/photos/mayuthai.png",
   handWraps: "/photos/mma.png",
   trainingKick: "/photos/mayuthai.png",
