@@ -60,7 +60,7 @@ export default async function PodcastPage() {
           )}
           <div>
             {p.sectionLabel && (
-              <div className="flex items-center gap-2 text-secondary text-[11px] tracking-[0.3em] uppercase mb-3">
+              <div className="flex items-center gap-2 text-accent text-[11px] tracking-[0.3em] uppercase mb-3">
                 <Mic size={14} /> {p.sectionLabel}
               </div>
             )}
@@ -90,7 +90,7 @@ export default async function PodcastPage() {
                   size={32}
                 />
                 <div className="absolute bottom-0 inset-x-0 p-4 border-t border-border">
-                  <div className="text-[10px] tracking-[0.3em] uppercase text-secondary">
+                  <div className="text-[10px] tracking-[0.3em] uppercase text-accent">
                     Episode {ep.number}
                   </div>
                   <div className="font-display mt-1">{ep.title}</div>

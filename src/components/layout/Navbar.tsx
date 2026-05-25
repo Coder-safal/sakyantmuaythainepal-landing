@@ -1,24 +1,20 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 import { NAV } from "@/lib/site";
 import { images } from "@/lib/images";
-import type { SiteConfig } from "@/lib/api";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3000/api/v1";
-const GOOGLE_LOGIN_URL = `${API_BASE}/auth/google`;
-
-export function Navbar({ site }: { site: Pick<SiteConfig, "whatsapp"> }) {
+export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -30,102 +26,103 @@ export function Navbar({ site }: { site: Pick<SiteConfig, "whatsapp"> }) {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 inset-x-0 z-50 transition-colors duration-300 ${
         scrolled || open
-          ? "bg-background/85 backdrop-blur-md border-b border-border"
-          : "bg-gradient-to-b from-background/80 to-transparent"
+          ? "bg-background border-b border-accent/10 shadow-[0_1px_0_0_rgba(255,255,255,0.04)]"
+          : "bg-transparent"
       }`}
     >
-      <div className="container-x flex items-center justify-between h-16 md:h-20">
-        <Link href="/" className="flex items-center gap-3 group">
+      <div className="container-x flex items-center h-16 md:h-20">
+        {/* Logo — anchored to the left */}
+        <Link
+          href="/"
+          className="flex items-center gap-3 mr-auto group"
+          aria-label="Sak Yant Muay Thai Nepal — Home"
+        >
           <Image
-            src={images.logo}
-            alt="Sak Yant Muay Thai Nepal"
-            width={48}
-            height={48}
-            priority
-            className="h-10 w-10 md:h-12 md:w-12 object-contain transition-transform group-hover:scale-105"
+            src={images.teamLogo}
+            alt="Sak Yant Muay Thai Nepal — Fight Team"
+            width={56}
+            height={56}
+            className="h-9 w-9 md:h-10 md:w-10 object-contain transition-transform duration-500 group-hover:rotate-12"
           />
-          <div className="hidden sm:flex flex-col leading-none">
-            <span className="font-display text-sm md:text-base tracking-wider">SAK YANT</span>
-            <span className="text-[10px] md:text-[11px] text-muted-foreground tracking-[0.2em]">
+          <div className="flex flex-col leading-tight">
+            <span className="font-display text-sm md:text-base tracking-[0.22em] text-foreground">
+              SAK YANT
+            </span>
+            <span className="text-[9px] md:text-[10px] text-muted-foreground tracking-[0.3em] mt-0.5">
               MUAY THAI · NEPAL
             </span>
           </div>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-7">
+        {/* Primary nav */}
+        <nav className="hidden lg:flex items-center gap-8 mr-8">
           {NAV.map((item) => {
             const active = pathname === item.to;
             return (
               <Link
                 key={item.to}
                 href={item.to}
-                className={`relative text-[13px] tracking-[0.15em] uppercase font-medium transition-colors ${
-                  active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                className={`relative text-[12px] tracking-[0.18em] uppercase font-medium transition-colors duration-200 ${
+                  active
+                    ? "text-accent"
+                    : "text-foreground/75 hover:text-foreground"
                 }`}
               >
                 {item.label}
-                {active && (
-                  <span className="absolute -bottom-2 left-0 right-0 h-[2px] bg-accent" />
-                )}
+                <span
+                  className={`pointer-events-none absolute -bottom-2 left-0 h-px bg-accent transition-all duration-300 ${
+                    active ? "w-full" : "w-0"
+                  }`}
+                />
               </Link>
             );
           })}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-4">
-          <a
-            href={GOOGLE_LOGIN_URL}
-            className="text-[13px] tracking-[0.15em] uppercase font-medium text-muted-foreground hover:text-foreground transition-colors"
+        {/* CTA + mobile toggle */}
+        <div className="flex items-center gap-2">
+          <Link
+            href="/contact"
+            className="hidden md:inline-flex items-center gap-2 bg-accent text-accent-foreground hover:bg-accent/90 px-5 py-2.5 text-[11px] tracking-[0.22em] uppercase font-semibold rounded-sm transition-colors duration-200"
           >
-            Sign In
-          </a>
-          <a
-            href={site.whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center bg-accent text-accent-foreground pl-5 pr-[calc(1.25rem-0.2em)] py-2.5 text-xs tracking-[0.2em] uppercase font-semibold hover:bg-accent/90 transition-colors"
+            Book Retreat <ArrowUpRight size={13} />
+          </Link>
+          <button
+            aria-label="Toggle menu"
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+            className="lg:hidden p-2 -mr-2 text-foreground hover:text-accent transition-colors"
           >
-            Join Now
-          </a>
+            {open ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
-
-        <button
-          aria-label="Toggle menu"
-          onClick={() => setOpen((v) => !v)}
-          className="lg:hidden p-2 text-foreground"
-        >
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
       </div>
 
       {open && (
-        <div className="lg:hidden border-t border-border bg-background/95 backdrop-blur-md">
-          <div className="container-x py-6 flex flex-col gap-1">
-            {NAV.map((item) => (
-              <Link
-                key={item.to}
-                href={item.to}
-                className="py-3 text-sm tracking-[0.15em] uppercase border-b border-border/40 text-foreground/90 hover:text-accent"
-              >
-                {item.label}
-              </Link>
-            ))}
-            <a
-              href={GOOGLE_LOGIN_URL}
-              className="mt-4 py-3 text-center text-sm tracking-[0.15em] uppercase border border-border text-foreground/90 hover:text-accent"
+        <div className="lg:hidden border-t border-accent/10 bg-background">
+          <div className="container-x py-6 flex flex-col">
+            {NAV.map((item) => {
+              const active = pathname === item.to;
+              return (
+                <Link
+                  key={item.to}
+                  href={item.to}
+                  className={`py-3.5 text-sm tracking-[0.22em] uppercase border-b border-border/30 transition-colors ${
+                    active ? "text-accent" : "text-foreground/85 hover:text-accent"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+            <Link
+              href="/contact"
+              className="mt-6 inline-flex items-center justify-center gap-2 bg-accent text-accent-foreground py-3.5 text-[11px] tracking-[0.22em] uppercase font-semibold rounded-sm"
             >
-              Sign In with Google
-            </a>
-            <a
-              href={site.whatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-2 inline-flex justify-center bg-accent text-accent-foreground py-3 pl-[0.25em] pr-0 text-xs tracking-[0.25em] uppercase font-semibold"
-            >
-              Join Now
-            </a>
+              Book Retreat <ArrowUpRight size={14} />
+            </Link>
           </div>
         </div>
       )}

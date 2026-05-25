@@ -91,6 +91,7 @@ export interface SiteConfig {
   phone: string;
   email: string;
   whatsapp: string;
+  whatsappLabel: string;
   mapsUrl: string;
   mapsEmbed: string;
   socials: {
@@ -98,6 +99,7 @@ export interface SiteConfig {
     facebook: string;
     youtube: string;
     tiktok: string;
+    viber: string;
   };
 }
 
@@ -113,6 +115,7 @@ export async function fetchSiteConfig(fallback: SiteConfig): Promise<SiteConfig>
     phone: d.phone ?? fallback.phone,
     email: d.email ?? fallback.email,
     whatsapp: d.whatsapp ?? fallback.whatsapp,
+    whatsappLabel: d.whatsappLabel ?? fallback.whatsappLabel,
     mapsUrl: d.mapsUrl ?? fallback.mapsUrl,
     mapsEmbed: d.mapsEmbed ?? fallback.mapsEmbed,
     socials: {
@@ -120,6 +123,7 @@ export async function fetchSiteConfig(fallback: SiteConfig): Promise<SiteConfig>
       facebook: d.socials?.facebook ?? fallback.socials.facebook,
       youtube: d.socials?.youtube ?? fallback.socials.youtube,
       tiktok: d.socials?.tiktok ?? fallback.socials.tiktok,
+      viber: d.socials?.viber ?? fallback.socials.viber,
     },
   };
 }

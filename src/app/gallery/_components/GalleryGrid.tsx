@@ -64,7 +64,7 @@ export function GalleryGrid({ items, categories }: Props) {
         <button
           onClick={() => setLightbox(null)}
           aria-label="Close lightbox"
-          className="fixed inset-0 z-[100] bg-background/95 backdrop-blur grid place-items-center p-6 cursor-zoom-out"
+          className="fixed inset-0 z-[100] bg-background/95 grid place-items-center p-6 cursor-zoom-out"
         >
           <Image
             src={lightbox}

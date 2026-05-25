@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Anton&family=Inter:wght@300;400;500;600;700&family=Cinzel:wght@500;600;700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -6,69 +6,98 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@theme inline {
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 6px;
-  --radius-xl: 10px;
-
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--card);
-  --color-popover-foreground: var(--card-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--accent);
-  --color-destructive-foreground: var(--accent-foreground);
-  --color-border: var(--border);
-  --color-input: var(--border);
-  --color-ring: var(--accent);
-  --color-ring-offset-background: var(--background);
-  --color-bronze: var(--bronze);
-  --color-blood: var(--accent);
-
-  --font-display: "Oswald", "Bebas Neue", system-ui, sans-serif;
-  --font-sans: "Inter", system-ui, sans-serif;
-
-  --color-sidebar: var(--card);
-  --color-sidebar-foreground: var(--foreground);
-  --color-sidebar-primary: var(--primary);
-  --color-sidebar-primary-foreground: var(--primary-foreground);
-  --color-sidebar-accent: var(--accent);
-  --color-sidebar-accent-foreground: var(--accent-foreground);
-  --color-sidebar-border: var(--border);
-  --color-sidebar-ring: var(--accent);
-}
-
+/*
+ * ============================================================
+ *  Bangtao palette — authoritative tokens
+ *  Edit only the :root values below; everything else cascades.
+ * ============================================================
+ */
 :root {
-  --background: #070709;
-  --foreground: #f5f5f5;
-  --card: #101014;
-  --card-foreground: #f5f5f5;
-  --primary: #583118;
-  --primary-foreground: #f5f5f5;
-  --secondary: #794d28;
-  --secondary-foreground: #f5f5f5;
-  --muted: #18181c;
-  --muted-foreground: #a1a1aa;
-  --accent: #64080a;
-  --accent-foreground: #f5f5f5;
-  --border: #1a1a1a;
-  --bronze: #794d28;
-  --radius: 4px;
+  --background: #0a0a0a;                 /* main background */
+  --secondary: #111111;                  /* secondary background / navbar / cards */
+  --section:   #161616;                  /* alternating section background */
+  --panel:     #1b1b1b;                  /* soft dark panels / pricing cards */
+
+  --text:  #f5f5f0;                      /* primary text */
+  --muted: #b0b0aa;                      /* muted beige-gray text */
+
+  --accent: #c6b08a;                     /* luxury beige */
+  --gold:   #b89b6d;                     /* warm gold */
+
+  --border: rgba(255, 255, 255, 0.08);   /* transparent border */
+  --glass:  rgba(255, 255, 255, 0.04);   /* glass card fill */
+  --glow:   rgba(198, 176, 138, 0.25);   /* hover gold glow */
+
+  --blood: #8b1e1e;                      /* sacred red — use sparingly */
+
+  /* Neon shock accent — Bangtao spec (1% usage).
+     ONLY for: hover underline on CTA, "LIVE"/"NEW"/"LIMITED" badges,
+     small icon glow, micro emphasis in headings (1–2 words max).
+     NEVER for: backgrounds, full buttons, hero text, large typography. */
+  --neon: #ff2d96;
+
+  --radius: 2px;
 }
 
 .dark {
-  --background: #070709;
-  --foreground: #f5f5f5;
+  --background: #0a0a0a;
+  --text: #f5f5f0;
+}
+
+@theme inline {
+  --radius-sm: 1px;
+  --radius-md: 2px;
+  --radius-lg: 4px;
+  --radius-xl: 8px;
+
+  /* Public palette — Bangtao spec */
+  --color-background: var(--background);
+  --color-secondary:  var(--secondary);
+  --color-section:    var(--section);
+  --color-panel:      var(--panel);
+  --color-text:       var(--text);
+  --color-muted:      var(--muted);
+  --color-accent:     var(--accent);
+  --color-gold:       var(--gold);
+  --color-border:     var(--border);
+  --color-glass:      var(--glass);
+  --color-blood:      var(--blood);
+  --color-neon:       var(--neon);
+
+  /* shadcn-compat aliases — map to the authoritative tokens above so
+     existing shadcn UI components (button, card, dialog, …) keep working
+     without you having to touch their files. Do not use these in new code;
+     use the literal token names. */
+  --color-foreground:             var(--text);
+  --color-card:                   var(--secondary);
+  --color-card-foreground:        var(--text);
+  --color-popover:                var(--section);
+  --color-popover-foreground:     var(--text);
+  --color-primary:                var(--accent);
+  --color-primary-foreground:     var(--background);
+  --color-secondary-foreground:   var(--text);
+  --color-muted-foreground:       var(--muted);
+  --color-accent-foreground:      var(--background);
+  --color-destructive:            var(--blood);
+  --color-destructive-foreground: var(--text);
+  --color-input:                  var(--border);
+  --color-ring:                   var(--accent);
+  --color-ring-offset-background: var(--background);
+  --color-bronze:                 var(--gold);
+  --color-mist:                   var(--muted);
+
+  --color-sidebar:                       var(--secondary);
+  --color-sidebar-foreground:            var(--text);
+  --color-sidebar-primary:               var(--accent);
+  --color-sidebar-primary-foreground:    var(--background);
+  --color-sidebar-accent:                var(--accent);
+  --color-sidebar-accent-foreground:     var(--background);
+  --color-sidebar-border:                var(--border);
+  --color-sidebar-ring:                  var(--accent);
+
+  --font-display: "Bebas Neue", "Anton", "Oswald", system-ui, sans-serif;
+  --font-serif:   "Cinzel", "Times New Roman", serif;
+  --font-sans:    "Inter", system-ui, sans-serif;
 }
 
 @layer base {
@@ -79,33 +108,55 @@
     scroll-behavior: smooth;
   }
   body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
+    background-color: var(--background);
+    color: var(--text);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
   h1, h2, h3, h4, .display {
     font-family: var(--font-display);
-    letter-spacing: 0.01em;
-    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-foreground);
   }
 }
 
 @layer utilities {
+  /* Layout */
   .container-x {
     margin-inline: auto;
-    padding-inline: 1.25rem;
-    max-width: 1280px;
+    padding-inline: 1.5rem;
+    max-width: 1400px;
   }
   @media (min-width: 768px) {
-    .container-x { padding-inline: 2rem; }
+    .container-x { padding-inline: 2.5rem; }
+  }
+  @media (min-width: 1280px) {
+    .container-x { padding-inline: 4rem; }
   }
 
+  /* Typography flourishes */
+  .font-serif { font-family: var(--font-serif); }
   .text-stroke {
-    -webkit-text-stroke: 1px rgba(245,245,245,0.4);
+    -webkit-text-stroke: 1px rgba(198,176,138,0.4);
     color: transparent;
   }
+  .text-stroke-mist {
+    -webkit-text-stroke: 1px rgba(176,176,170,0.25);
+    color: transparent;
+  }
+  .gold-gradient {
+    background: linear-gradient(135deg, #d9c19a 0%, #c6b08a 45%, #b89b6d 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .text-balance { text-wrap: balance; }
 
+  /* Grain / film overlay */
   .grain {
     position: relative;
   }
@@ -114,38 +165,217 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.06;
+    opacity: 0.07;
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/></svg>");
   }
 
-  .blood-divider {
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  /* Glass — solid panels (no blur) */
+  .glass {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(198, 176, 138, 0.18);
   }
 
+  /* Dividers */
+  .blood-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  }
+  .gold-line {
+    background: linear-gradient(90deg, transparent, rgba(200,169,107,0.6), transparent);
+  }
+
+  /* Hover glow — Bangtao spec */
+  .gold-glow {
+    box-shadow: 0 0 0 0 rgba(198, 176, 138, 0);
+    transition: box-shadow 500ms ease, border-color 500ms ease, transform 500ms ease;
+  }
+  .gold-glow:hover {
+    box-shadow: 0 18px 60px -20px rgba(198, 176, 138, 0.25), 0 0 0 1px rgba(198, 176, 138, 0.35) inset;
+  }
+
+  /* Sacred geometry background watermark */
+  .sacred-bg {
+    background-image: radial-gradient(circle at 50% 50%, rgba(198, 176, 138, 0.05), transparent 60%);
+  }
+
+  /* Gradient overlay — Bangtao spec */
+  .cinema-overlay {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.85));
+  }
+
+  /* Marquee */
   .marquee {
     display: flex;
     overflow: hidden;
-    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   }
   .marquee-track {
     display: flex;
-    gap: 3rem;
-    animation: marquee 30s linear infinite;
+    gap: 3.5rem;
+    animation: marquee 38s linear infinite;
     white-space: nowrap;
+    will-change: transform;
   }
   @keyframes marquee {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
   }
 
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    animation: reveal 0.9s cubic-bezier(.2,.7,.2,1) forwards;
+  /* Slow Ken-Burns drift for cinematic stills */
+  .ken-burns {
+    animation: kenBurns 24s ease-in-out infinite alternate;
+    transform-origin: center;
   }
-  @keyframes reveal {
-    to { opacity: 1; transform: translateY(0); }
+  @keyframes kenBurns {
+    0%   { transform: scale(1.05) translate3d(0, 0, 0); }
+    100% { transform: scale(1.18) translate3d(-2%, -1%, 0); }
+  }
+
+  /* Floating sacred particles */
+  .float-slow {
+    animation: floatSlow 9s ease-in-out infinite alternate;
+  }
+  .float-mid {
+    animation: floatSlow 6s ease-in-out infinite alternate;
+  }
+  @keyframes floatSlow {
+    0%   { transform: translate3d(0,0,0); opacity: 0.5; }
+    100% { transform: translate3d(0,-14px,0); opacity: 1; }
+  }
+
+  /* Yantra slow spin */
+  .yantra-spin { animation: yantraSpin 80s linear infinite; }
+  .yantra-spin-rev { animation: yantraSpin 110s linear infinite reverse; }
+  @keyframes yantraSpin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Glowing line draw — for SVG sacred lines */
+  .line-draw {
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+    animation: lineDraw 6s ease forwards;
+  }
+  @keyframes lineDraw {
+    to { stroke-dashoffset: 0; }
+  }
+
+  /* Reveal-on-scroll (driven by data-revealed attribute) */
+  .reveal-up {
+    opacity: 0;
+    transform: translate3d(0, 32px, 0);
+    transition: opacity 1s cubic-bezier(.2,.7,.2,1), transform 1s cubic-bezier(.2,.7,.2,1);
+    will-change: opacity, transform;
+  }
+  .reveal-up[data-revealed="true"] {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  .reveal-up.delay-1 { transition-delay: 120ms; }
+  .reveal-up.delay-2 { transition-delay: 240ms; }
+  .reveal-up.delay-3 { transition-delay: 360ms; }
+  .reveal-up.delay-4 { transition-delay: 480ms; }
+
+  /* Fade only */
+  .reveal-fade {
+    opacity: 0;
+    transition: opacity 1.4s ease;
+  }
+  .reveal-fade[data-revealed="true"] { opacity: 1; }
+
+  /* Pulse glow for hero ornament */
+  .pulse-glow {
+    animation: pulseGlow 4.5s ease-in-out infinite;
+  }
+  @keyframes pulseGlow {
+    0%, 100% { filter: drop-shadow(0 0 6px rgba(200,169,107,0.2)); opacity: 0.85; }
+    50%      { filter: drop-shadow(0 0 24px rgba(200,169,107,0.55)); opacity: 1; }
+  }
+
+  /* Smoke / mist gradient overlay helper */
+  .smoke-overlay {
+    background:
+      radial-gradient(ellipse at 20% 80%, rgba(11,11,11,0.0) 0%, rgba(11,11,11,0.75) 80%),
+      linear-gradient(180deg, rgba(11,11,11,0.0) 0%, rgba(11,11,11,0.4) 60%, rgba(11,11,11,0.95) 100%);
+  }
+  .smoke-overlay-light {
+    background:
+      linear-gradient(180deg, rgba(11,11,11,0.35) 0%, rgba(11,11,11,0.15) 40%, rgba(11,11,11,0.7) 100%);
+  }
+  .vignette {
+    box-shadow: inset 0 0 200px 80px rgba(0,0,0,0.55);
+  }
+
+  /* Subtle hover lift */
+  .lift {
+    transition: transform 600ms cubic-bezier(.2,.7,.2,1);
+  }
+  .lift:hover { transform: translateY(-4px); }
+
+  /* Section dividing ornament line */
+  .ornament-line {
+    display: inline-flex;
+    align-items: center;
+    gap: .65rem;
+    color: var(--color-accent);
+    font-size: 11px;
+    letter-spacing: .4em;
+    text-transform: uppercase;
+  }
+  .ornament-line::before,
+  .ornament-line::after {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-accent));
+  }
+  .ornament-line::after {
+    background: linear-gradient(90deg, var(--color-accent), transparent);
+  }
+
+  /* Soft hairline border */
+  .hairline { border: 1px solid rgba(200,169,107,0.16); }
+
+  /* Seal watermark — the source PNG ships with a non-transparent paper
+     background, so we invert it (paper → near-black, ink → near-white),
+     tint the ink toward gold via sepia/hue-rotate, then use mix-blend-mode
+     screen so the dark paper drops out against the dark page and only the
+     glowing gold ink reads through. */
+  .seal-watermark {
+    filter: invert(1) sepia(1) saturate(2.5) hue-rotate(-25deg) brightness(1.15);
+    mix-blend-mode: screen;
+  }
+
+  /* Neon highlight helpers — Bangtao spec. Reserved for micro moments. */
+  .neon-text { color: var(--neon); }
+  .neon-underline {
+    background-image: linear-gradient(var(--neon), var(--neon));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0 1px;
+    transition: background-size 350ms cubic-bezier(.2,.7,.2,1);
+  }
+  .neon-underline:hover { background-size: 100% 1px; }
+  .neon-glow {
+    filter: drop-shadow(0 0 6px rgba(255, 45, 150, 0.55));
+  }
+  .badge-neon {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--neon);
+    border: 1px solid rgba(255, 45, 150, 0.45);
+    background: rgba(255, 45, 150, 0.06);
+    border-radius: var(--radius);
   }
 }
