@@ -95,9 +95,9 @@
   --color-sidebar-border:                var(--border);
   --color-sidebar-ring:                  var(--accent);
 
-  --font-display: "Bebas Neue", "Anton", "Oswald", system-ui, sans-serif;
-  --font-serif:   "Cinzel", "Times New Roman", serif;
-  --font-sans:    "Inter", system-ui, sans-serif;
+  --font-display: var(--font-lato), "Lato", sans-serif;
+  --font-serif:   var(--font-lato), "Lato", sans-serif;
+  --font-sans:    var(--font-lato), "Lato", sans-serif;
 }
 
 @layer base {
